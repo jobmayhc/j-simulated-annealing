@@ -23,7 +23,9 @@ import problema.mochila.Objeto;
 import problema.viajero.HandlerViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
+import problema.viajero.vecindad.PuntoAleatorio;
 import simulacion.interfaz.viajero.TSPFilter;
+import simulacion.simulatedAnnealing.SimulatedAnnealing;
 
 /**
  *
@@ -34,6 +36,8 @@ public class Main extends javax.swing.JFrame {
     /** Creates new form Main */
     private File archivo;
     private EsquemaViajero viajero;
+    private PuntoAleatorio esquemaVecindad;
+    private SimulatedAnnealing algoritmo;
     private EsquemaMochila mochila;
     private DefaultTableModel mochilaTableModel;
     private DefaultTableModel viajeroTableModel;
@@ -75,6 +79,7 @@ public class Main extends javax.swing.JFrame {
         menuAbrirMochila = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmos de Simulacion");
@@ -198,6 +203,15 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edicion");
+
+        jMenuItem1.setText("ejecutar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -228,7 +242,7 @@ public class Main extends javax.swing.JFrame {
                 fila.add(origen);
                 for (Punto destino : viajero.getPuntos()) {
                     fila.add(formateo.format(
-                            viajero.getCosto(origen, destino)));
+                            origen.getCostoA(destino)));
                 }
                 viajeroTableModel.addRow(fila);
             }
@@ -272,6 +286,16 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        esquemaVecindad = new PuntoAleatorio(viajero);
+        algoritmo = new SimulatedAnnealing(esquemaVecindad);
+        algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_FACTOR);
+        algoritmo.setIteracionesDiferenteTemperatura(1000);
+        algoritmo.setIteracionesMismaTemperatura(200);
+        algoritmo.setTemperatura(10);
+        algoritmo.ejecutar(viajero.getSolucionAleatoria());
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -295,6 +319,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenuItem menuAbrirMochila;

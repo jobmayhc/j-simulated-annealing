@@ -5,6 +5,7 @@
 package problema.viajero;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -42,5 +43,18 @@ public class EsquemaViajero {
 
     public void agregarPunto(Punto punto) {
         puntos.add(punto);
+    }
+
+    @SuppressWarnings("unchecked")
+    public SolucionViajero getSolucionAleatoria() {
+        SolucionViajero solucionAleatoria = new SolucionViajero();
+        ArrayList<Punto> rutaAleatoria = (ArrayList<Punto>) puntos.clone();
+
+        Collections.shuffle(rutaAleatoria);
+        for (Punto punto : rutaAleatoria) {
+            solucionAleatoria.agregarPunto(punto);
+        }
+
+        return solucionAleatoria;
     }
 }
