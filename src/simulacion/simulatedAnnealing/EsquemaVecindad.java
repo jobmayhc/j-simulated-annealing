@@ -10,5 +10,16 @@ package simulacion.simulatedAnnealing;
  */
 public interface EsquemaVecindad {
 
+    /**
+     * obtiene una solucion vecina utilizando este esquema de vecindad
+     * @param solucionActual
+     * @return
+     */
     public Solucion getVecino(Solucion solucionActual);
+
+    /**
+     * describe la política de selección de este esquema de vecindad
+     * @return
+     */
+    public String getDescripcion();
 }

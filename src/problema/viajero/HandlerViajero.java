@@ -22,9 +22,10 @@ public class HandlerViajero {
         String[] partesLinea;
         Punto punto;
         while ((linea = flujoLectura.readLine()) != null) {
+            linea = linea.replaceAll("\\s+", " ");
             punto = new Punto();
             try {
-                partesLinea = linea.split(" ");
+                partesLinea = linea.trim().split(" ");
                 punto.setNombre(partesLinea[0]);
                 punto.x = Double.parseDouble(partesLinea[1]);
                 punto.y = Double.parseDouble(partesLinea[2]);

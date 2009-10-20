@@ -65,6 +65,17 @@ public class SolucionViajero implements Solucion {
         ruta.set(posicion2, temporal);
     }
 
+    /**
+     * mueve un punto de la solucion
+     * @param posicionInicial posicion de origen dentro de la solucion
+     * @param destino posicion destino dentro de la solucion
+     */
+    public void mover(int posicionInicial, int destino) {
+        Punto punto = ruta.get(posicionInicial);
+        ruta.remove(posicionInicial);
+        ruta.add(destino, punto);
+    }
+
     public boolean contiene(Punto punto) {
         return ruta.contains(punto);
     }
@@ -75,6 +86,6 @@ public class SolucionViajero implements Solucion {
         for (Punto punto : ruta) {
             buffer.append(punto.getNombre() + ";");
         }
-        return buffer.toString();
+        return buffer.toString() + "; Costo: " + getCosto();
     }
 }

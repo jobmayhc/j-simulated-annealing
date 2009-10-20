@@ -23,20 +23,25 @@ import problema.mochila.Objeto;
 import problema.viajero.HandlerViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
-import problema.viajero.vecindad.PuntoAleatorio;
+import problema.viajero.vecindad.ArcoAleatorio;
+import problema.viajero.vecindad.AleatorioDoble;
+import problema.viajero.vecindad.AleatorioSimple;
 import simulacion.interfaz.viajero.TSPFilter;
+import simulacion.simulatedAnnealing.EsquemaVecindad;
 import simulacion.simulatedAnnealing.SimulatedAnnealing;
 
 /**
  *
- * @author jhon.arevalo
+ * @author John Arevalo
+ * @author Jenny Bernal
+ *
  */
 public class Main extends javax.swing.JFrame {
 
     /** Creates new form Main */
     private File archivo;
     private EsquemaViajero viajero;
-    private PuntoAleatorio esquemaVecindad;
+    private EsquemaVecindad esquemaVecindad;
     private SimulatedAnnealing algoritmo;
     private EsquemaMochila mochila;
     private DefaultTableModel mochilaTableModel;
@@ -287,13 +292,14 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        esquemaVecindad = new PuntoAleatorio(viajero);
+        esquemaVecindad = new AleatorioSimple(viajero);
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
-        algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_FACTOR);
-        algoritmo.setIteracionesDiferenteTemperatura(1000);
-        algoritmo.setIteracionesMismaTemperatura(200);
+        algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_COCIENTE);
+        algoritmo.setIteracionesDiferenteTemperatura(200);
+        algoritmo.setIteracionesMismaTemperatura(1000);
         algoritmo.setTemperatura(10);
         algoritmo.ejecutar(viajero.getSolucionAleatoria());
+        System.out.println("Mejor Solucion" + algoritmo.getSolucion());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

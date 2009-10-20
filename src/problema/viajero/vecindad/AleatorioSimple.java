@@ -15,11 +15,11 @@ import simulacion.simulatedAnnealing.Solucion;
  * solucion actual
  * @author John Arevalo
  */
-public class PuntoAleatorio implements EsquemaVecindad {
+public class AleatorioSimple implements EsquemaVecindad {
 
     private EsquemaViajero esquemaViajero;
 
-    public PuntoAleatorio(EsquemaViajero esquemaViajero) {
+    public AleatorioSimple(EsquemaViajero esquemaViajero) {
         this.esquemaViajero = esquemaViajero;
     }
 
@@ -29,7 +29,18 @@ public class PuntoAleatorio implements EsquemaVecindad {
         SolucionViajero nuevaSolucion = new SolucionViajero((SolucionViajero) solucionActual);
         // Obtener una posicion aleatoria en la solucion
         int aleatorio = Util.generarAleatorio(esquemaViajero.getPuntos().size() - 1);
-        nuevaSolucion.intercambiar(aleatorio, aleatorio + 1);
+        int siguiente = 0;
+        if (aleatorio == esquemaViajero.getPuntos().size() - 1) {
+            siguiente = 0;
+        } else {
+            siguiente = aleatorio + 1;
+        }
+        nuevaSolucion.intercambiar(aleatorio, siguiente);
         return nuevaSolucion;
+    }
+
+    public String getDescripcion() {
+        return "Escoge un punto aleatorio y la intercambia con la siguiente en la " +
+                "posición actual";
     }
 }

@@ -29,7 +29,7 @@ public class SimulatedAnnealing {
     public static final int REDUCCION_POR_COCIENTE = 3;
     public static final int MINIMIZACION = 1;
     public static final int MAXIMIZACION = 2;
-    public static final double ALFA = 0.99;
+    public static final double ALFA = 0.9999;
     public static final double BETA = 0.01;
     private double delta;
     private Solucion solucionActual;
@@ -40,6 +40,7 @@ public class SimulatedAnnealing {
     private int esquemaReduccion;
     private EsquemaVecindad vecindad;
     private double temperatura;
+    private double temperaturaInicial;
     private int tipoProblema;
 
     public SimulatedAnnealing(EsquemaVecindad vecindad) {
@@ -71,7 +72,6 @@ public class SimulatedAnnealing {
 
             }
             reducir(i);
-            System.out.println(solucionActual);
         }
     }
 
@@ -118,6 +118,7 @@ public class SimulatedAnnealing {
     }
 
     public void setTemperatura(double temperatura) {
+        temperaturaInicial = temperatura;
         this.temperatura = temperatura;
     }
 
@@ -155,7 +156,7 @@ public class SimulatedAnnealing {
                 temperatura = ALFA * temperatura;
                 break;
             case REDUCCION_POR_ITERACION:
-                temperatura = temperatura / iteracion;
+                temperatura = temperaturaInicial / iteracion;
                 break;
         }
     }
