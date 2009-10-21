@@ -47,49 +47,6 @@ public class SimulatedAnnealing {
         this.vecindad = vecindad;
     }
 
-    /**
-     * Ejecuta el algoritmo para obtener la mejor Solucion
-     * @param solucionInicial la solucion con la que inicia el algoritmo
-     */
-    public void ejecutar(Solucion solucionInicial) {
-        solucionActual = solucionInicial;
-        mejorSolucion = solucionActual;
-
-        for (int i = 0; i < iteracionesDiferenteTemperatura; i++) {
-            for (int j = 0; j < iteracionesMismaTemperatura; j++) {
-                solucionVecina = vecindad.getVecino(solucionActual);
-                delta = solucionVecina.getCosto() - solucionActual.getCosto();
-                if (delta < 0) {
-                    solucionActual = solucionVecina;
-                    if (solucionActual.getCosto() < mejorSolucion.getCosto()) {
-                        mejorSolucion = solucionActual;
-                    }
-                } else {
-                    if (Math.random() < Math.exp(-delta / temperatura)) {
-                        solucionActual = solucionVecina;
-                    }
-                }
-
-            }
-            reducir(i);
-        }
-    }
-
-    /**
-     * de las dos soluciones recibidas devuelve la más optima teniendo en cuenta
-     * el tipo de problema
-     * @see #getTipoProblema()
-     * @see #setTipoProblema(int)
-     * @return
-     */
-    private Solucion optimizar(Solucion solucion1, Solucion solucion2) {
-        if (tipoProblema == MAXIMIZACION) {
-            return solucion1.getCosto() > solucion2.getCosto() ? solucion1 : solucion2;
-        } else {
-            return solucion1.getCosto() < solucion2.getCosto() ? solucion1 : solucion2;
-        }
-    }
-
     public int getTipoProblema() {
         return tipoProblema;
     }
@@ -97,6 +54,7 @@ public class SimulatedAnnealing {
     /**
      * define si es un ejecicio para buscar el costo más alto o el más bajo
      * los parametros validos son {@link #MAXIMIZACION} o {@link #MAXIMIZACION}
+     * por omision se toma MINIMIZACION
      * @see #MAXIMIZACION
      * @see #MINIMIZACION
      * @param tipoProblema
@@ -143,6 +101,28 @@ public class SimulatedAnnealing {
     }
 
     /**
+     * Ejecuta el algoritmo para obtener la mejor Solucion
+     * @param solucionInicial la solucion con la que inicia el algoritmo
+     */
+    public void ejecutar(Solucion solucionInicial) {
+        solucionActual = solucionInicial;
+        mejorSolucion = solucionActual;
+
+        for (int i = 0; i < iteracionesDiferenteTemperatura; i++) {
+            for (int j = 0; j < iteracionesMismaTemperatura; j++) {
+                solucionVecina = vecindad.getVecino(solucionActual);
+                delta = solucionVecina.getCosto() - solucionActual.getCosto();
+                if (tipoProblema == MAXIMIZACION) {
+                    maximizar();
+                } else {
+                    minimizar();
+                }
+            }
+            reducir(i);
+        }
+    }
+
+    /**
      * reduce la temperatura de acuerdo al esquema de reduccion seleccionado.
      *
      * @param iteracion si utiliza el esquema {@link #REDUCCION_POR_ITERACION}
@@ -158,6 +138,32 @@ public class SimulatedAnnealing {
             case REDUCCION_POR_ITERACION:
                 temperatura = temperaturaInicial / iteracion;
                 break;
+        }
+    }
+
+    private void minimizar() {
+        if (delta < 0) {
+            solucionActual = solucionVecina;
+            if (solucionActual.getCosto() < mejorSolucion.getCosto()) {
+                mejorSolucion = solucionActual;
+            }
+        } else {
+            if (Math.random() < Math.exp(-delta / temperatura)) {
+                solucionActual = solucionVecina;
+            }
+        }
+    }
+
+    private void maximizar() {
+        if (delta > 0) {
+            solucionActual = solucionVecina;
+            if (solucionActual.getCosto() > mejorSolucion.getCosto()) {
+                mejorSolucion = solucionActual;
+            }
+        } else {
+            if (Math.random() < Math.exp(delta / temperatura)) {
+                solucionActual = solucionVecina;
+            }
         }
     }
 }
