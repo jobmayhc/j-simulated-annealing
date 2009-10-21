@@ -16,6 +16,10 @@ public class EsquemaMochila {
     private String nombre;
     private String comentario;
     private double capacidad;
+    /**
+     * min (C, (sumatoria C sub j) - C)
+     */
+    private double delta;
 
     public EsquemaMochila() {
         objetos = new ArrayList<Objeto>();
@@ -43,6 +47,7 @@ public class EsquemaMochila {
 
     public void agregarObjeto(Objeto objeto) {
         objetos.add(objeto);
+        calcularDelta();
     }
 
     public double getCapacidad() {
@@ -53,6 +58,29 @@ public class EsquemaMochila {
         this.capacidad = capacidad;
     }
 
-    public void getCosto() {
+    public double getDelta() {
+        return delta;
+    }
+
+    private void calcularDelta() {
+        delta = 0;
+        double sumatoriaCosto = 0;
+        for (Objeto objeto : objetos) {
+            sumatoriaCosto = sumatoriaCosto + objeto.getCosto();
+        }
+        delta = Math.min(capacidad, delta);
+    }
+
+    @SuppressWarnings("unchecked")
+    public SolucionMochila getSolucionAleatoria() {
+        SolucionMochila solucionAleatoria = new SolucionMochila(capacidad);
+
+        for (Objeto objeto : objetos) {
+            if (Math.random() <= 0.5) {
+                solucionAleatoria.agregarObjeto(objeto);
+            }
+        }
+
+        return solucionAleatoria;
     }
 }

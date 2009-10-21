@@ -14,9 +14,10 @@ import simulacion.simulatedAnnealing.Solucion;
  */
 public class SolucionViajero implements Solucion {
 
-    private List<Punto> ruta = new ArrayList<Punto>();
+    private List<Punto> ruta;
 
     public SolucionViajero() {
+        ruta = new ArrayList<Punto>();
     }
 
     /**
