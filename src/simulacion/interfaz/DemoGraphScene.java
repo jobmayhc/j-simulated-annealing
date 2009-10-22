@@ -76,6 +76,7 @@ public class DemoGraphScene extends GraphScene.StringGraph {
         label.setImage(IMAGE);
         label.getActions().addAction(connectAction);
         label.getActions().addAction(moveAction);
+        label.getActions().addAction(selectAction);
         mainLayer.addChild(label);
         label.getActions().addAction(ActionFactory.createPopupMenuAction(nodeMenu));
         return label;

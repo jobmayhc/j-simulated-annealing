@@ -25,7 +25,7 @@ public class SolucionViajero implements Solucion {
      * @param solucion
      */
     public SolucionViajero(SolucionViajero solucion) {
-        super();
+        ruta = new ArrayList<Punto>();
         for (Punto punto : solucion.ruta) {
             this.agregarPunto(punto);
         }
@@ -79,6 +79,10 @@ public class SolucionViajero implements Solucion {
 
     public boolean contiene(Punto punto) {
         return ruta.contains(punto);
+    }
+
+    public List<Punto> getRuta() {
+        return ruta;
     }
 
     @Override

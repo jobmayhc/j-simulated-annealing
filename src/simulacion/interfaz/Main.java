@@ -11,22 +11,17 @@
 package simulacion.interfaz;
 
 import java.io.File;
-import java.text.DecimalFormat;
-import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
+import org.netbeans.api.visual.widget.Widget;
 import problema.mochila.EsquemaMochila;
 import problema.mochila.HandlerMochila;
-import problema.mochila.Objeto;
-import problema.mochila.vecindad.IntercambioObjeto;
 import problema.viajero.HandlerViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
-import problema.viajero.vecindad.ArcoAleatorio;
+import problema.viajero.SolucionViajero;
 import problema.viajero.vecindad.AleatorioDoble;
-import problema.viajero.vecindad.AleatorioSimple;
 import simulacion.interfaz.viajero.TSPFilter;
 import simulacion.simulatedAnnealing.EsquemaVecindad;
 import simulacion.simulatedAnnealing.SimulatedAnnealing;
@@ -45,20 +40,11 @@ public class Main extends javax.swing.JFrame {
     private EsquemaVecindad esquemaVecindad;
     private SimulatedAnnealing algoritmo;
     private EsquemaMochila mochila;
-    private DefaultTableModel mochilaTableModel;
-    private DefaultTableModel viajeroTableModel;
+    private GrafoViajeroScene grafoViajero;
 
     public Main() {
-        iniciarMochila();
-        viajeroTableModel = new DefaultTableModel();
+        grafoViajero = new GrafoViajeroScene();
         initComponents();
-    }
-
-    public void iniciarMochila() {
-        mochilaTableModel = new DefaultTableModel();
-        mochilaTableModel.addColumn("Nombre");
-        mochilaTableModel.addColumn("Costo");
-        mochilaTableModel.addColumn("Valor");
     }
 
     /** This method is called from within the constructor to
@@ -71,17 +57,11 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        textCapacidadMochila = new javax.swing.JTextField();
-        scrollTableMochila = new javax.swing.JScrollPane();
-        tablaMochila = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        scrollTablaViajero = new javax.swing.JScrollPane();
-        tablaViajero = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuAbrirViajero = new javax.swing.JMenuItem();
@@ -92,93 +72,8 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmos de Simulacion");
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         getContentPane().setLayout(new java.awt.GridBagLayout());
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Mochila"));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        jLabel1.setText("Capacidad");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
-
-        textCapacidadMochila.setPreferredSize(new java.awt.Dimension(80, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(textCapacidadMochila, gridBagConstraints);
-
-        tablaMochila.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        scrollTableMochila.setViewportView(tablaMochila);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(scrollTableMochila, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jPanel1, gridBagConstraints);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Agente Viajero"));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        tablaViajero.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tablaViajero.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tablaViajero.getTableHeader().setReorderingAllowed(false);
-        scrollTablaViajero.setViewportView(tablaViajero);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(scrollTablaViajero, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jPanel2, gridBagConstraints);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -216,6 +111,16 @@ public class Main extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jToolBar1, gridBagConstraints);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+        jScrollPane1.setViewportView(jPanel3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(jScrollPane1, gridBagConstraints);
 
         jMenu1.setText("Archivo");
 
@@ -268,32 +173,14 @@ public class Main extends javax.swing.JFrame {
 
     private void menuAbrirViajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirViajeroActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        DecimalFormat formateo = new DecimalFormat("#.##");
         fileChooser.addChoosableFileFilter(new TSPFilter());
-        Vector<Object> fila;
         fileChooser.showOpenDialog(this);
         if ((archivo = fileChooser.getSelectedFile()) == null) {
             return;
         }
         try {
             viajero = HandlerViajero.cargar(archivo);
-            viajeroTableModel = new DefaultTableModel();
-
-            viajeroTableModel.addColumn("\\");
-            for (Punto punto : viajero.getPuntos()) {
-                viajeroTableModel.addColumn(punto.getNombre());
-            }
-
-            for (Punto origen : viajero.getPuntos()) {
-                fila = new Vector<Object>();
-                fila.add(origen);
-                for (Punto destino : viajero.getPuntos()) {
-                    fila.add(formateo.format(
-                            origen.getCostoA(destino)));
-                }
-                viajeroTableModel.addRow(fila);
-            }
-            tablaViajero.setModel(viajeroTableModel);
+            dibujarNodos();
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar el archivo:" + ex.getMessage(),
@@ -301,6 +188,36 @@ public class Main extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_menuAbrirViajeroActionPerformed
+
+    private void dibujarNodos() {
+        //grafoViajero.removeChildren();
+        //TODO: implementar zoom
+        Widget nodo;
+        for (Punto punto : viajero.getPuntos()) {
+            nodo = grafoViajero.addNode(punto);
+            nodo.setPreferredLocation(viajero.trasladar(punto, jPanel3.getBounds()));
+        }
+
+        jPanel3.add(grafoViajero.createView(), java.awt.BorderLayout.CENTER);
+    }
+
+    private void dibujarSolucion() {
+
+        SolucionViajero solucionViajero = (SolucionViajero) algoritmo.getSolucion();
+        Punto anterior = solucionViajero.getRuta().get(0);
+        Double costo;
+        for (Punto punto : solucionViajero.getRuta()) {
+            costo = anterior.getCostoA(punto);
+            grafoViajero.addEdge(costo);
+            grafoViajero.setEdgeSource(costo, anterior);
+            grafoViajero.setEdgeTarget(costo, punto);
+            anterior = punto;
+        }
+        costo = anterior.getCostoA(solucionViajero.getRuta().get(0));
+        grafoViajero.addEdge(costo);
+        grafoViajero.setEdgeSource(costo, anterior);
+        grafoViajero.setEdgeTarget(costo, solucionViajero.getRuta().get(0));
+    }
 
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
         this.dispose();
@@ -314,18 +231,6 @@ public class Main extends javax.swing.JFrame {
         }
         try {
             mochila = HandlerMochila.cargar(archivo);
-            iniciarMochila();
-            Vector<Object> fila;
-            for (Objeto objeto : mochila.getObjetos()) {
-                fila = new Vector<Object>();
-                fila.add(objeto.getNombre());
-                fila.add(objeto.getCosto());
-                fila.add(objeto.getValor());
-                textCapacidadMochila.setText(String.valueOf(mochila.getCapacidad()));
-                mochilaTableModel.addRow(fila);
-                tablaMochila.setModel(mochilaTableModel);
-            }
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar el archivo:" + ex.getMessage(),
                     "Error en carga",
@@ -334,15 +239,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        esquemaVecindad = new IntercambioObjeto(mochila);
-        mochila.setCapacidad(50);
+        esquemaVecindad = new AleatorioDoble(viajero);
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
-        algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
-        algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_COCIENTE);
+        algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
+        algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_ITERACION);
         algoritmo.setIteracionesDiferenteTemperatura(200);
         algoritmo.setIteracionesMismaTemperatura(1000);
         algoritmo.setTemperatura(10);
-        algoritmo.ejecutar(mochila.getSolucionAleatoria());
+        algoritmo.ejecutar(viajero.getSolucionAleatoria());
+        dibujarSolucion();
         System.out.println("Mejor Solucion" + algoritmo.getSolucion());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -375,21 +280,15 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem menuAbrirMochila;
     private javax.swing.JMenuItem menuAbrirViajero;
     private javax.swing.JMenuItem menuSalir;
-    private javax.swing.JScrollPane scrollTablaViajero;
-    private javax.swing.JScrollPane scrollTableMochila;
-    private javax.swing.JTable tablaMochila;
-    private javax.swing.JTable tablaViajero;
-    private javax.swing.JTextField textCapacidadMochila;
     // End of variables declaration//GEN-END:variables
 }
