@@ -16,11 +16,14 @@ import simulacion.simulatedAnnealing.Solucion;
  */
 public class IntercambioObjeto implements EsquemaVecindad {
 
-    EsquemaMochila mochila;
+    private EsquemaMochila mochila;
+
+    public IntercambioObjeto(EsquemaMochila mochila) {
+        this.mochila = mochila;
+    }
 
     public Solucion getVecino(Solucion solucionActual) {
-        SolucionMochila nuevaSolucion = new SolucionMochila((SolucionMochila) solucionActual,
-                mochila.getCapacidad());
+        SolucionMochila nuevaSolucion = new SolucionMochila((SolucionMochila) solucionActual);
         // Ubicar el objeto aleatoriamente e intercambiarlo en la solucion
         int aleatorio = Util.generarAleatorio(mochila.getObjetos().size() - 1);
         nuevaSolucion.intercambiar(mochila.getObjetos().get(aleatorio));

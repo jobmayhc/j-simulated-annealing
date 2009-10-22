@@ -15,27 +15,29 @@ public class SolucionMochila implements Solucion {
 
     private ArrayList<Objeto> objetos = new ArrayList<Objeto>();
     private double delta;
-    private double penalizacion;
+    private Double penalizacion;
     private double capacidadTotal;
 
-    public SolucionMochila(double capacidadTotal) {
+    public SolucionMochila(double capacidadTotal, double delta) {
         this.capacidadTotal = capacidadTotal;
+        this.delta = delta;
     }
 
     /**
      * Crea una copia de la solucion recibida
      * @param solucion
      */
-    public SolucionMochila(SolucionMochila solucion, double capacidadTotal) {
+    public SolucionMochila(SolucionMochila solucion) {
         super();
-        this.capacidadTotal = capacidadTotal;
+        this.capacidadTotal = solucion.capacidadTotal;
+        this.delta = solucion.delta;
         for (Objeto objeto : solucion.objetos) {
             this.agregarObjeto(objeto);
         }
-        calcularPenalizacion();
     }
 
     public double getCosto() {
+        calcularPenalizacion();
         double sumatoriaValor = 0;
         for (Objeto objeto : objetos) {
             sumatoriaValor = sumatoriaValor + objeto.getValor();
@@ -44,7 +46,7 @@ public class SolucionMochila implements Solucion {
         return sumatoriaValor * penalizacion;
     }
 
-    public void calcularPenalizacion() {
+    private void calcularPenalizacion() {
         double sumatoriaCosto = 0;
         for (Objeto objeto : objetos) {
             sumatoriaCosto = sumatoriaCosto + objeto.getCosto();
@@ -67,6 +69,14 @@ public class SolucionMochila implements Solucion {
         } else {
             objetos.add(objeto);
         }
+    }
 
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        for (Objeto objeto : objetos) {
+            buffer.append(objeto.getNombre() + ",");
+        }
+        return buffer.toString() + "; costo = " + getCosto();
     }
 }

@@ -113,7 +113,7 @@ class SAMochila2 {
         System.out.print(" Mejor f: " + f(xmejor));
 
         try {
-            File outFile = new File("F:\\archivoSalida.txt");
+            File outFile = new File("archivoSalida.txt");
             BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
             for (i = 0; i < n; i++) {
                 writer.write("" + y[i]);

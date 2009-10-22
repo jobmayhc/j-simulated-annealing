@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import problema.mochila.EsquemaMochila;
 import problema.mochila.HandlerMochila;
 import problema.mochila.Objeto;
+import problema.mochila.vecindad.IntercambioObjeto;
 import problema.viajero.HandlerViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
@@ -333,14 +334,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        esquemaVecindad = new AleatorioSimple(viajero);
+        esquemaVecindad = new IntercambioObjeto(mochila);
+        mochila.setCapacidad(50);
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
-        algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
+        algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
         algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_COCIENTE);
         algoritmo.setIteracionesDiferenteTemperatura(200);
         algoritmo.setIteracionesMismaTemperatura(1000);
         algoritmo.setTemperatura(10);
-        algoritmo.ejecutar(viajero.getSolucionAleatoria());
+        algoritmo.ejecutar(mochila.getSolucionAleatoria());
         System.out.println("Mejor Solucion" + algoritmo.getSolucion());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

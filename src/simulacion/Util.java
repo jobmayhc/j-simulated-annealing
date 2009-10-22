@@ -6,7 +6,7 @@ package simulacion;
 
 /**
  *
- * @author edilson
+ * @author John Arevalo
  */
 public class Util {
 
