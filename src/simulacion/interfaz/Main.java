@@ -183,6 +183,7 @@ public class Main extends javax.swing.JFrame {
             dibujarNodos();
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al cargar el archivo:" + ex.getMessage(),
                     "Error en carga",
                     JOptionPane.ERROR_MESSAGE);
@@ -190,7 +191,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAbrirViajeroActionPerformed
 
     private void dibujarNodos() {
-        //grafoViajero.removeChildren();
+
         //TODO: implementar zoom
         Widget nodo;
         for (Punto punto : viajero.getPuntos()) {
@@ -205,18 +206,18 @@ public class Main extends javax.swing.JFrame {
 
         SolucionViajero solucionViajero = (SolucionViajero) algoritmo.getSolucion();
         Punto anterior = solucionViajero.getRuta().get(0);
-        Double costo;
+        Arco arco;
         for (Punto punto : solucionViajero.getRuta()) {
-            costo = anterior.getCostoA(punto);
-            grafoViajero.addEdge(costo);
-            grafoViajero.setEdgeSource(costo, anterior);
-            grafoViajero.setEdgeTarget(costo, punto);
+            arco = new Arco(anterior.getCostoA(punto));
+            grafoViajero.addEdge(arco);
+            grafoViajero.setEdgeSource(arco, anterior);
+            grafoViajero.setEdgeTarget(arco, punto);
             anterior = punto;
         }
-        costo = anterior.getCostoA(solucionViajero.getRuta().get(0));
-        grafoViajero.addEdge(costo);
-        grafoViajero.setEdgeSource(costo, anterior);
-        grafoViajero.setEdgeTarget(costo, solucionViajero.getRuta().get(0));
+        arco = new Arco(anterior.getCostoA(solucionViajero.getRuta().get(0)));
+        grafoViajero.addEdge(arco);
+        grafoViajero.setEdgeSource(arco, anterior);
+        grafoViajero.setEdgeTarget(arco, solucionViajero.getRuta().get(0));
     }
 
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed

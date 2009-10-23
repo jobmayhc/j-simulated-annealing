@@ -31,7 +31,7 @@ import problema.viajero.Punto;
  *
  * @author John Arevalo
  */
-public class GrafoViajeroScene extends GraphScene<Punto, Double> {
+public class GrafoViajeroScene extends GraphScene<Punto, Arco> {
 
     private static final Image ICONO = ImageUtilities.loadImage("test/resources/node.png");
     private WidgetAction accionMover = ActionFactory.createMoveAction();
@@ -61,10 +61,10 @@ public class GrafoViajeroScene extends GraphScene<Punto, Double> {
     }
 
     @Override
-    protected Widget attachEdgeWidget(Double costo) {
+    protected Widget attachEdgeWidget(Arco arco) {
         ConnectionWidget conexion = new ConnectionWidget(this);
         conexion.setRouter(router);
-        conexion.setToolTipText(String.valueOf(costo));
+        conexion.setToolTipText(String.valueOf(arco.getCosto()));
         conexion.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
         conexion.setControlPointShape(PointShape.SQUARE_FILLED_BIG);
         conexion.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
@@ -74,8 +74,8 @@ public class GrafoViajeroScene extends GraphScene<Punto, Double> {
     }
 
     @Override
-    protected void attachEdgeSourceAnchor(Double costo, Punto antiguoOrigen, Punto origen) {
-        ConnectionWidget conexion = (ConnectionWidget) findWidget(costo);
+    protected void attachEdgeSourceAnchor(Arco arco, Punto antiguoOrigen, Punto origen) {
+        ConnectionWidget conexion = (ConnectionWidget) findWidget(arco);
         Widget widgetOrigen = findWidget(origen);
         conexion.setSourceAnchor(widgetOrigen != null
                 ? AnchorFactory.createFreeRectangularAnchor(widgetOrigen, true) : null);
@@ -83,8 +83,8 @@ public class GrafoViajeroScene extends GraphScene<Punto, Double> {
     }
 
     @Override
-    protected void attachEdgeTargetAnchor(Double costo, Punto antiguoDestino, Punto destino) {
-        ConnectionWidget conexion = (ConnectionWidget) findWidget(costo);
+    protected void attachEdgeTargetAnchor(Arco arco, Punto antiguoDestino, Punto destino) {
+        ConnectionWidget conexion = (ConnectionWidget) findWidget(arco);
         Widget widgetDestino = findWidget(destino);
         conexion.setTargetAnchor(widgetDestino != null
                 ? AnchorFactory.createFreeRectangularAnchor(widgetDestino, true) : null);
