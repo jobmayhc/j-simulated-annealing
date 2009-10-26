@@ -42,6 +42,7 @@ public class SimulatedAnnealing {
     private double temperatura;
     private double temperaturaInicial;
     private int tipoProblema;
+    private OyenteAnnealing oyente;
 
     public SimulatedAnnealing(EsquemaVecindad vecindad) {
         this.vecindad = vecindad;
@@ -96,6 +97,14 @@ public class SimulatedAnnealing {
         this.iteracionesMismaTemperatura = iteracionesMismaTemperatura;
     }
 
+    public OyenteAnnealing getOyente() {
+        return oyente;
+    }
+
+    public void setOyente(OyenteAnnealing oyente) {
+        this.oyente = oyente;
+    }
+
     public Solucion getSolucion() {
         return mejorSolucion;
     }
@@ -117,8 +126,10 @@ public class SimulatedAnnealing {
                 } else {
                     minimizar();
                 }
+                oyente.cambioSolucionActual(solucionActual);
             }
             reducir(i);
+            
         }
     }
 
