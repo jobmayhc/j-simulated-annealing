@@ -11,10 +11,14 @@
 package simulacion.interfaz;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.NumberFormat;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.netbeans.api.visual.widget.Widget;
+import org.openide.util.Exceptions;
 import problema.mochila.EsquemaMochila;
 import problema.mochila.HandlerMochila;
 import problema.viajero.HandlerViajero;
@@ -24,7 +28,9 @@ import problema.viajero.SolucionViajero;
 import problema.viajero.vecindad.AleatorioDoble;
 import simulacion.interfaz.viajero.TSPFilter;
 import simulacion.simulatedAnnealing.EsquemaVecindad;
+import simulacion.simulatedAnnealing.OyenteAnnealing;
 import simulacion.simulatedAnnealing.SimulatedAnnealing;
+import simulacion.simulatedAnnealing.Solucion;
 
 /**
  *
@@ -32,17 +38,18 @@ import simulacion.simulatedAnnealing.SimulatedAnnealing;
  * @author Jenny Bernal
  *
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame implements OyenteAnnealing {
 
     /** Creates new form Main */
     private File archivo;
+    private FileWriter registro;
     private EsquemaViajero viajero;
     private EsquemaVecindad esquemaVecindad;
     private SimulatedAnnealing algoritmo;
     private EsquemaMochila mochila;
     private GrafoViajeroScene grafoViajero;
 
-    public Main() {
+    public Main() throws IOException {
         grafoViajero = new GrafoViajeroScene();
         initComponents();
     }
@@ -220,6 +227,14 @@ public class Main extends javax.swing.JFrame {
         grafoViajero.setEdgeTarget(arco, solucionViajero.getRuta().get(0));
     }
 
+    public void cambioSolucionActual(Solucion solucion) {
+        try {
+            registro.write(NumberFormat.getInstance().format(solucion.getCosto()) + "\n");
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_menuSalirActionPerformed
@@ -241,13 +256,27 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         esquemaVecindad = new AleatorioDoble(viajero);
+        try {
+            registro = new FileWriter(File.createTempFile("tsp", ".tmp"));
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
+        algoritmo.setOyente(this);
         algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
         algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_ITERACION);
-        algoritmo.setIteracionesDiferenteTemperatura(200);
-        algoritmo.setIteracionesMismaTemperatura(1000);
+        algoritmo.setIteracionesDiferenteTemperatura(1000);
+        algoritmo.setIteracionesMismaTemperatura(200);
         algoritmo.setTemperatura(10);
         algoritmo.ejecutar(viajero.getSolucionAleatoria());
+
+        try {
+            registro.flush();
+            registro.close();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
         dibujarSolucion();
         System.out.println("Mejor Solucion" + algoritmo.getSolucion());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -274,7 +303,11 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
             }
         });
     }
