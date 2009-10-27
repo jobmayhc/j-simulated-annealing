@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.netbeans.api.visual.widget.Widget;
@@ -79,7 +80,6 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmos de Simulacion");
-        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jToolBar1.setFloatable(false);
@@ -304,7 +304,9 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
 
             public void run() {
                 try {
-                    new Main().setVisible(true);
+                    Main frame = new Main();
+                    frame.setVisible(true);
+                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 } catch (IOException ex) {
                     Exceptions.printStackTrace(ex);
                 }
