@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -27,6 +28,7 @@ import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
 import problema.viajero.SolucionViajero;
 import problema.viajero.vecindad.AleatorioDoble;
+import simulacion.Configuracion;
 import simulacion.interfaz.viajero.TSPFilter;
 import simulacion.simulatedAnnealing.EsquemaVecindad;
 import simulacion.simulatedAnnealing.OyenteAnnealing;
@@ -49,10 +51,12 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     private SimulatedAnnealing algoritmo;
     private EsquemaMochila mochila;
     private GrafoViajeroScene grafoViajero;
+    private Configuracion configuracion;
 
     public Main() throws IOException {
         grafoViajero = new GrafoViajeroScene();
         initComponents();
+        configuracion = new Configuracion();
     }
 
     /** This method is called from within the constructor to
@@ -77,6 +81,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         menuSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmos de Simulacion");
@@ -171,6 +176,14 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         });
         jMenu2.add(jMenuItem1);
 
+        jMenuItem2.setText("Preferencias...");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -255,7 +268,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        esquemaVecindad = new AleatorioDoble(viajero);
+        esquemaVecindad = configuracion.crearEsquemaViajero();
         try {
             registro = new FileWriter(File.createTempFile("tsp", ".tmp"));
         } catch (IOException ex) {
@@ -264,10 +277,10 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
         algoritmo.setOyente(this);
         algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
-        algoritmo.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_ITERACION);
-        algoritmo.setIteracionesDiferenteTemperatura(1000);
-        algoritmo.setIteracionesMismaTemperatura(200);
-        algoritmo.setTemperatura(10);
+        algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
+        algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
+        algoritmo.setIteracionesMismaTemperatura(configuracion.getIteracionesMismaTemperatura());
+        algoritmo.setTemperatura(configuracion.getTemperaturaInicial());
         algoritmo.ejecutar(viajero.getSolucionAleatoria());
 
         try {
@@ -288,6 +301,15 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jMenuItem1ActionPerformed(evt);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        JDialog dialog = new JDialog();
+        dialog.setContentPane(new ConfiguracionUI(configuracion));
+        dialog.setTitle("Configuración");
+        dialog.setModal(true);
+        dialog.setVisible(true);
+        dialog.pack();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,6 +342,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;

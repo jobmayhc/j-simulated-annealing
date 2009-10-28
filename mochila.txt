@@ -1,5 +1,0 @@
-CAPACIDAD: 50
-correa 2 10
-anillo 1 500
-colchon 100 30
-armario 80 80
