@@ -10,7 +10,9 @@
  */
 package simulacion.interfaz;
 
+import java.awt.event.FocusEvent;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import problema.viajero.vecindad.AleatorioDoble;
 import problema.viajero.vecindad.AleatorioSimple;
@@ -42,313 +44,408 @@ public class ConfiguracionUI extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
+        grupoEsquemaReduccion = new javax.swing.ButtonGroup();
+        grupoVecindadViajero = new javax.swing.ButtonGroup();
         configuracion = new simulacion.Configuracion();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jRadioButton7 = new javax.swing.JRadioButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
+        panelSolapas = new javax.swing.JTabbedPane();
+        panelGeneral = new javax.swing.JPanel();
+        labelTemperaturaInicial = new javax.swing.JLabel();
+        textTemperaturaInicial = new javax.swing.JTextField();
+        labelIteracionesMismaTemperatura = new javax.swing.JLabel();
+        textIteracionesMismaTemperatura = new javax.swing.JTextField();
+        labelDiferenteTemperatura = new javax.swing.JLabel();
+        textDiferenteTemperatura = new javax.swing.JTextField();
+        labelAlfa = new javax.swing.JLabel();
+        textAlfa = new javax.swing.JTextField();
+        labelBeta = new javax.swing.JLabel();
+        textBeta = new javax.swing.JTextField();
+        labelEsquemaReduccion = new javax.swing.JLabel();
+        radioReduccionPorIteracion = new javax.swing.JRadioButton();
+        radioReduccionPorFactor = new javax.swing.JRadioButton();
+        radioReduccionPorCociente = new javax.swing.JRadioButton();
+        panelMochila = new javax.swing.JPanel();
+        labelCapacidadMochila = new javax.swing.JLabel();
+        textCapacidadMochila = new javax.swing.JTextField();
+        labelEsquemaVecindadMochila = new javax.swing.JLabel();
+        radioEsquemaVecindadMochila = new javax.swing.JRadioButton();
+        panelViajero = new javax.swing.JPanel();
+        labelEsquemaVecindadViajero = new javax.swing.JLabel();
+        radioAleatorioSimple = new javax.swing.JRadioButton();
+        radioAleatorioDoble = new javax.swing.JRadioButton();
+        radioArcoAleatorio = new javax.swing.JRadioButton();
+        botonCerrar = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel1.text")); // NOI18N
+        panelGeneral.setLayout(new java.awt.GridBagLayout());
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${temperaturaInicial}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        labelTemperaturaInicial.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelTemperaturaInicial.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(labelTemperaturaInicial, gridBagConstraints);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${temperaturaInicial}"), textTemperaturaInicial, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel2.text")); // NOI18N
+        textTemperaturaInicial.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textTemperaturaInicialFocusGained(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(textTemperaturaInicial, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${iteracionesMismaTemperatura}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        labelIteracionesMismaTemperatura.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelIteracionesMismaTemperatura.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(labelIteracionesMismaTemperatura, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${iteracionesMismaTemperatura}"), textIteracionesMismaTemperatura, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel3.text")); // NOI18N
+        textIteracionesMismaTemperatura.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textIteracionesMismaTemperaturaFocusGained(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(textIteracionesMismaTemperatura, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${iteracionesDiferenteTemperatura}"), jTextField3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        labelDiferenteTemperatura.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelDiferenteTemperatura.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(labelDiferenteTemperatura, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${iteracionesDiferenteTemperatura}"), textDiferenteTemperatura, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel5.text")); // NOI18N
-
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton3.text")); // NOI18N
-        jRadioButton3.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton3StateChanged(evt);
+        textDiferenteTemperatura.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textDiferenteTemperaturaFocusGained(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(textDiferenteTemperatura, gridBagConstraints);
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton2.text")); // NOI18N
-        jRadioButton2.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton2StateChanged(evt);
+        labelAlfa.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelAlfa.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(labelAlfa, gridBagConstraints);
+
+        textAlfa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textAlfaFocusGained(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(textAlfa, gridBagConstraints);
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton1.text")); // NOI18N
-        jRadioButton1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton1StateChanged(evt);
+        labelBeta.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelBeta.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(labelBeta, gridBagConstraints);
+
+        textBeta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textBetaFocusGained(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(textBeta, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
-                            .addGap(40, 40, 40)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jRadioButton3)
-                                .addComponent(jRadioButton2)
-                                .addComponent(jRadioButton1))))
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jRadioButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        labelEsquemaReduccion.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelEsquemaReduccion.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(labelEsquemaReduccion, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
+        grupoEsquemaReduccion.add(radioReduccionPorIteracion);
+        radioReduccionPorIteracion.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioReduccionPorIteracion.text")); // NOI18N
+        radioReduccionPorIteracion.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                radioReduccionPorIteracionStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(radioReduccionPorIteracion, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel4.text")); // NOI18N
+        grupoEsquemaReduccion.add(radioReduccionPorFactor);
+        radioReduccionPorFactor.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioReduccionPorFactor.text")); // NOI18N
+        radioReduccionPorFactor.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                radioReduccionPorFactorStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(radioReduccionPorFactor, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${capacidadMochila}"), jTextField4, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        grupoEsquemaReduccion.add(radioReduccionPorCociente);
+        radioReduccionPorCociente.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioReduccionPorCociente.text")); // NOI18N
+        radioReduccionPorCociente.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                radioReduccionPorCocienteStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelGeneral.add(radioReduccionPorCociente, gridBagConstraints);
+
+        panelSolapas.addTab(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.panelGeneral.TabConstraints.tabTitle"), panelGeneral); // NOI18N
+
+        panelMochila.setLayout(new java.awt.GridBagLayout());
+
+        labelCapacidadMochila.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelCapacidadMochila.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelMochila.add(labelCapacidadMochila, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${capacidadMochila}"), textCapacidadMochila, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel6.text")); // NOI18N
-
-        jRadioButton7.setSelected(true);
-        jRadioButton7.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton7.text")); // NOI18N
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
-                .addGap(37, 37, 37)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jRadioButton7))
-                .addContainerGap(118, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
-
-        jLabel7.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jLabel7.text")); // NOI18N
-
-        buttonGroup2.add(jRadioButton4);
-        jRadioButton4.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton4.text")); // NOI18N
-        jRadioButton4.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton4StateChanged(evt);
+        textCapacidadMochila.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textCapacidadMochilaFocusGained(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelMochila.add(textCapacidadMochila, gridBagConstraints);
 
-        buttonGroup2.add(jRadioButton5);
-        jRadioButton5.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton5.text")); // NOI18N
-        jRadioButton5.addChangeListener(new javax.swing.event.ChangeListener() {
+        labelEsquemaVecindadMochila.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelEsquemaVecindadMochila.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelMochila.add(labelEsquemaVecindadMochila, gridBagConstraints);
+
+        radioEsquemaVecindadMochila.setSelected(true);
+        radioEsquemaVecindadMochila.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioEsquemaVecindadMochila.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelMochila.add(radioEsquemaVecindadMochila, gridBagConstraints);
+
+        panelSolapas.addTab(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.panelMochila.TabConstraints.tabTitle"), panelMochila); // NOI18N
+
+        panelViajero.setLayout(new java.awt.GridBagLayout());
+
+        labelEsquemaVecindadViajero.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.labelEsquemaVecindadViajero.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelViajero.add(labelEsquemaVecindadViajero, gridBagConstraints);
+
+        grupoVecindadViajero.add(radioAleatorioSimple);
+        radioAleatorioSimple.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioAleatorioSimple.text")); // NOI18N
+        radioAleatorioSimple.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton5StateChanged(evt);
+                radioAleatorioSimpleStateChanged(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelViajero.add(radioAleatorioSimple, gridBagConstraints);
 
-        buttonGroup2.add(jRadioButton6);
-        jRadioButton6.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jRadioButton6.text")); // NOI18N
-        jRadioButton6.addChangeListener(new javax.swing.event.ChangeListener() {
+        grupoVecindadViajero.add(radioAleatorioDoble);
+        radioAleatorioDoble.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioAleatorioDoble.text")); // NOI18N
+        radioAleatorioDoble.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton6StateChanged(evt);
+                radioAleatorioDobleStateChanged(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelViajero.add(radioAleatorioDoble, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel7)
-                .addContainerGap(178, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton4)
-                    .addComponent(jRadioButton6)
-                    .addComponent(jRadioButton5))
-                .addGap(140, 140, 140))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(jRadioButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton6)
-                .addContainerGap(101, Short.MAX_VALUE))
-        );
+        grupoVecindadViajero.add(radioArcoAleatorio);
+        radioArcoAleatorio.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.radioArcoAleatorio.text")); // NOI18N
+        radioArcoAleatorio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                radioArcoAleatorioStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelViajero.add(radioArcoAleatorio, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
+        panelSolapas.addTab(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.panelViajero.TabConstraints.tabTitle"), panelViajero); // NOI18N
 
-        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+        add(panelSolapas, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonCerrar.setText(org.openide.util.NbBundle.getMessage(ConfiguracionUI.class, "ConfiguracionUI.botonCerrar.text")); // NOI18N
+        botonCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonCerrarActionPerformed(evt);
             }
         });
-        add(jButton1, java.awt.BorderLayout.PAGE_END);
+        add(botonCerrar, java.awt.BorderLayout.PAGE_END);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton1StateChanged
+    private void radioReduccionPorCocienteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radioReduccionPorCocienteStateChanged
         if (((JRadioButton) evt.getSource()).isSelected()) {
             configuracion.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_ITERACION);
         }
-    }//GEN-LAST:event_jRadioButton1StateChanged
+    }//GEN-LAST:event_radioReduccionPorCocienteStateChanged
 
-    private void jRadioButton2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton2StateChanged
+    private void radioReduccionPorFactorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radioReduccionPorFactorStateChanged
         if (((JRadioButton) evt.getSource()).isSelected()) {
             configuracion.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_FACTOR);
         }
-    }//GEN-LAST:event_jRadioButton2StateChanged
+    }//GEN-LAST:event_radioReduccionPorFactorStateChanged
 
-    private void jRadioButton3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton3StateChanged
+    private void radioReduccionPorIteracionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radioReduccionPorIteracionStateChanged
         if (((JRadioButton) evt.getSource()).isSelected()) {
             configuracion.setEsquemaReduccion(SimulatedAnnealing.REDUCCION_POR_COCIENTE);
         }
-    }//GEN-LAST:event_jRadioButton3StateChanged
+    }//GEN-LAST:event_radioReduccionPorIteracionStateChanged
 
-    private void jRadioButton4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton4StateChanged
+    private void radioAleatorioSimpleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radioAleatorioSimpleStateChanged
         if (((JRadioButton) evt.getSource()).isSelected()) {
             configuracion.setVecindadViajero(AleatorioSimple.class);
         }
-    }//GEN-LAST:event_jRadioButton4StateChanged
+    }//GEN-LAST:event_radioAleatorioSimpleStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarActionPerformed
         SwingUtilities.getWindowAncestor(this).dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botonCerrarActionPerformed
 
-    private void jRadioButton5StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton5StateChanged
+    private void radioAleatorioDobleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radioAleatorioDobleStateChanged
         if (((JRadioButton) evt.getSource()).isSelected()) {
             configuracion.setVecindadViajero(AleatorioDoble.class);
         }
-    }//GEN-LAST:event_jRadioButton5StateChanged
+    }//GEN-LAST:event_radioAleatorioDobleStateChanged
 
-    private void jRadioButton6StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton6StateChanged
+    private void radioArcoAleatorioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radioArcoAleatorioStateChanged
         if (((JRadioButton) evt.getSource()).isSelected()) {
             configuracion.setVecindadViajero(ArcoAleatorio.class);
         }
-    }//GEN-LAST:event_jRadioButton6StateChanged
+    }//GEN-LAST:event_radioArcoAleatorioStateChanged
+
+    private void textTemperaturaInicialFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textTemperaturaInicialFocusGained
+        seleccionarTextoEnFoco(evt);
+    }//GEN-LAST:event_textTemperaturaInicialFocusGained
+
+    private void textIteracionesMismaTemperaturaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textIteracionesMismaTemperaturaFocusGained
+        seleccionarTextoEnFoco(evt);
+    }//GEN-LAST:event_textIteracionesMismaTemperaturaFocusGained
+
+    private void textDiferenteTemperaturaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textDiferenteTemperaturaFocusGained
+        seleccionarTextoEnFoco(evt);
+    }//GEN-LAST:event_textDiferenteTemperaturaFocusGained
+
+    private void textAlfaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAlfaFocusGained
+        seleccionarTextoEnFoco(evt);
+    }//GEN-LAST:event_textAlfaFocusGained
+
+    private void textBetaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textBetaFocusGained
+        seleccionarTextoEnFoco(evt);
+    }//GEN-LAST:event_textBetaFocusGained
+
+    private void textCapacidadMochilaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textCapacidadMochilaFocusGained
+        seleccionarTextoEnFoco(evt);
+    }//GEN-LAST:event_textCapacidadMochilaFocusGained
+
+    private void seleccionarTextoEnFoco(FocusEvent evt) {
+        JTextField cajaTexto = ((JTextField) evt.getSource());
+        cajaTexto.setSelectionStart(0);
+        cajaTexto.setSelectionEnd(cajaTexto.getText().length());
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton botonCerrar;
     private simulacion.Configuracion configuracion;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.ButtonGroup grupoEsquemaReduccion;
+    private javax.swing.ButtonGroup grupoVecindadViajero;
+    private javax.swing.JLabel labelAlfa;
+    private javax.swing.JLabel labelBeta;
+    private javax.swing.JLabel labelCapacidadMochila;
+    private javax.swing.JLabel labelDiferenteTemperatura;
+    private javax.swing.JLabel labelEsquemaReduccion;
+    private javax.swing.JLabel labelEsquemaVecindadMochila;
+    private javax.swing.JLabel labelEsquemaVecindadViajero;
+    private javax.swing.JLabel labelIteracionesMismaTemperatura;
+    private javax.swing.JLabel labelTemperaturaInicial;
+    private javax.swing.JPanel panelGeneral;
+    private javax.swing.JPanel panelMochila;
+    private javax.swing.JTabbedPane panelSolapas;
+    private javax.swing.JPanel panelViajero;
+    private javax.swing.JRadioButton radioAleatorioDoble;
+    private javax.swing.JRadioButton radioAleatorioSimple;
+    private javax.swing.JRadioButton radioArcoAleatorio;
+    private javax.swing.JRadioButton radioEsquemaVecindadMochila;
+    private javax.swing.JRadioButton radioReduccionPorCociente;
+    private javax.swing.JRadioButton radioReduccionPorFactor;
+    private javax.swing.JRadioButton radioReduccionPorIteracion;
+    private javax.swing.JTextField textAlfa;
+    private javax.swing.JTextField textBeta;
+    private javax.swing.JTextField textCapacidadMochila;
+    private javax.swing.JTextField textDiferenteTemperatura;
+    private javax.swing.JTextField textIteracionesMismaTemperatura;
+    private javax.swing.JTextField textTemperaturaInicial;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    public Configuracion getConfiguracion() {
+        return configuracion;
+    }
 }

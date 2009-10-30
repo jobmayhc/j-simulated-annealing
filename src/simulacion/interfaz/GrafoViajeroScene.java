@@ -33,7 +33,7 @@ import problema.viajero.Punto;
  */
 public class GrafoViajeroScene extends GraphScene<Punto, Arco> {
 
-    private static final Image ICONO = ImageUtilities.loadImage("test/resources/node.png");
+    private static final Image ICONO = ImageUtilities.loadImage("simulacion/interfaz/imagenes/node.png");
     private WidgetAction accionMover = ActionFactory.createMoveAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new PuntoSelectProvider());
     private LayerWidget disenoPrincipal;
@@ -91,7 +91,7 @@ public class GrafoViajeroScene extends GraphScene<Punto, Arco> {
     }
 
     public void initGrids() {
-        Image sourceImage = ImageUtilities.loadImage("test/resources/paper_grid17.png"); // NOI18N
+        Image sourceImage = ImageUtilities.loadImage("simulacion/interfaz/imagenes/grilla.png");
         int width = sourceImage.getWidth(null);
         int height = sourceImage.getHeight(null);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

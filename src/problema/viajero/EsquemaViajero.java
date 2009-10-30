@@ -107,6 +107,6 @@ public class EsquemaViajero {
     public Point trasladar(Punto punto, Rectangle limites) {
         double razonX = (punto.x - getMinX()) / getAncho();
         double razonY = (punto.y - getMinY()) / getAlto();
-        return new Point((int) (limites.width * razonX), (int) (limites.height * razonY));
+        return new Point((int) ((limites.width - 80) * razonX), (int) ((limites.height - 80) * razonY));
     }
 }
