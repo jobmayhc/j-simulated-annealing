@@ -5,11 +5,16 @@
 package simulacion;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import org.openide.util.Exceptions;
+import problema.viajero.EsquemaViajero;
+import problema.viajero.vecindad.AleatorioDoble;
 import simulacion.simulatedAnnealing.EsquemaVecindad;
+import simulacion.simulatedAnnealing.SimulatedAnnealing;
 
 /**
  *
- * @author jhon.arevalo
+ * @author John Arevalo
  */
 public class Configuracion implements Serializable {
 
@@ -20,8 +25,21 @@ public class Configuracion implements Serializable {
     private double temperaturaInicial;
     private int iteracionesDiferenteTemperatura;
     private int iteracionesMismaTemperatura;
+    private double alfa;
+    private double beta;
 
     public Configuracion() {
+        //valores por omision
+        vecindadViajero = AleatorioDoble.class;
+        capacidadMochila = 50;
+        temperaturaInicial = 10;
+        iteracionesMismaTemperatura = 200;
+        iteracionesDiferenteTemperatura = 1000;
+        alfa = 0.99;
+        beta = 0.001;
+        esquemaReduccion = SimulatedAnnealing.REDUCCION_POR_ITERACION;
+
+
     }
 
     public double getCapacidadMochila() {
@@ -80,7 +98,30 @@ public class Configuracion implements Serializable {
         this.vecindadViajero = vecindadViajero;
     }
 
-    public EsquemaVecindad crearEsquemaViajero() {
-        return null;
+    public double getAlfa() {
+        return alfa;
+    }
+
+    public void setAlfa(double alfa) {
+        this.alfa = alfa;
+    }
+
+    public double getBeta() {
+        return beta;
+    }
+
+    public void setBeta(double beta) {
+        this.beta = beta;
+    }
+
+    @SuppressWarnings("unchecked")
+    public EsquemaVecindad crearEsquemaVecindad(EsquemaViajero viajero) {
+        try {
+            Constructor constructor = vecindadViajero.getConstructor(EsquemaViajero.class);
+            return (EsquemaVecindad) constructor.newInstance(viajero);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+            return null;
+        }
     }
 }

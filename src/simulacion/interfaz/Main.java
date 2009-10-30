@@ -10,6 +10,7 @@
  */
 package simulacion.interfaz;
 
+import java.awt.Dialog.ModalExclusionType;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +28,6 @@ import problema.viajero.HandlerViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
 import problema.viajero.SolucionViajero;
-import problema.viajero.vecindad.AleatorioDoble;
 import simulacion.Configuracion;
 import simulacion.interfaz.viajero.TSPFilter;
 import simulacion.simulatedAnnealing.EsquemaVecindad;
@@ -69,52 +69,52 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel3 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        barraHerramientas = new javax.swing.JToolBar();
+        botonAbrirArchivo = new javax.swing.JButton();
+        botonEjecutar = new javax.swing.JButton();
+        scrollPanelViajero = new javax.swing.JScrollPane();
+        panelViajero = new javax.swing.JPanel();
+        barraMenu = new javax.swing.JMenuBar();
+        menuArchivo = new javax.swing.JMenu();
         menuAbrirViajero = new javax.swing.JMenuItem();
         menuAbrirMochila = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        menuEdicion = new javax.swing.JMenu();
+        menuEjecutar = new javax.swing.JMenuItem();
+        menuPreferencias = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmos de Simulacion");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
+        barraHerramientas.setFloatable(false);
+        barraHerramientas.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simulacion/interfaz/imagenes/abrirarchivo.png"))); // NOI18N
-        jButton1.setToolTipText("Abrir Archivo...");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonAbrirArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simulacion/interfaz/imagenes/abrirarchivo.png"))); // NOI18N
+        botonAbrirArchivo.setToolTipText("Abrir Archivo...");
+        botonAbrirArchivo.setFocusable(false);
+        botonAbrirArchivo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonAbrirArchivo.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        botonAbrirArchivo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonAbrirArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonAbrirArchivoActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        barraHerramientas.add(botonAbrirArchivo);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simulacion/interfaz/imagenes/ejecutar.png"))); // NOI18N
-        jButton2.setToolTipText("Ejecutar");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simulacion/interfaz/imagenes/ejecutar.png"))); // NOI18N
+        botonEjecutar.setToolTipText("Ejecutar");
+        botonEjecutar.setFocusable(false);
+        botonEjecutar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonEjecutar.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        botonEjecutar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonEjecutarActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
+        barraHerramientas.add(botonEjecutar);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -122,19 +122,19 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        getContentPane().add(jToolBar1, gridBagConstraints);
+        getContentPane().add(barraHerramientas, gridBagConstraints);
 
-        jPanel3.setLayout(new java.awt.BorderLayout());
-        jScrollPane1.setViewportView(jPanel3);
+        panelViajero.setLayout(new java.awt.BorderLayout());
+        scrollPanelViajero.setViewportView(panelViajero);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        getContentPane().add(jScrollPane1, gridBagConstraints);
+        getContentPane().add(scrollPanelViajero, gridBagConstraints);
 
-        jMenu1.setText("Archivo");
+        menuArchivo.setText("Archivo");
 
         menuAbrirViajero.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         menuAbrirViajero.setText("Abrir Archivo...");
@@ -143,7 +143,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
                 menuAbrirViajeroActionPerformed(evt);
             }
         });
-        jMenu1.add(menuAbrirViajero);
+        menuArchivo.add(menuAbrirViajero);
 
         menuAbrirMochila.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         menuAbrirMochila.setText("Abrir Mochila...");
@@ -152,7 +152,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
                 menuAbrirMochilaActionPerformed(evt);
             }
         });
-        jMenu1.add(menuAbrirMochila);
+        menuArchivo.add(menuAbrirMochila);
 
         menuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         menuSalir.setText("Salir");
@@ -161,32 +161,32 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
                 menuSalirActionPerformed(evt);
             }
         });
-        jMenu1.add(menuSalir);
+        menuArchivo.add(menuSalir);
 
-        jMenuBar1.add(jMenu1);
+        barraMenu.add(menuArchivo);
 
-        jMenu2.setText("Edicion");
+        menuEdicion.setText("Edicion");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("ejecutar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuEjecutar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
+        menuEjecutar.setText("ejecutar");
+        menuEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuEjecutarActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        menuEdicion.add(menuEjecutar);
 
-        jMenuItem2.setText("Preferencias...");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        menuPreferencias.setText("Preferencias...");
+        menuPreferencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuPreferenciasActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        menuEdicion.add(menuPreferencias);
 
-        jMenuBar1.add(jMenu2);
+        barraMenu.add(menuEdicion);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(barraMenu);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -216,10 +216,10 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         Widget nodo;
         for (Punto punto : viajero.getPuntos()) {
             nodo = grafoViajero.addNode(punto);
-            nodo.setPreferredLocation(viajero.trasladar(punto, jPanel3.getBounds()));
+            nodo.setPreferredLocation(viajero.trasladar(punto, panelViajero.getBounds()));
         }
 
-        jPanel3.add(grafoViajero.createView(), java.awt.BorderLayout.CENTER);
+        panelViajero.add(grafoViajero.createView(), java.awt.BorderLayout.CENTER);
     }
 
     private void dibujarSolucion() {
@@ -241,11 +241,11 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     }
 
     public void cambioSolucionActual(Solucion solucion) {
-        try {
-            registro.write(NumberFormat.getInstance().format(solucion.getCosto()) + "\n");
+        /*try {
+            //registro.write(NumberFormat.getInstance().format(solucion.getCosto()) + "\n");
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
-        }
+        }*/
     }
 
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
@@ -267,8 +267,8 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         }
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        esquemaVecindad = configuracion.crearEsquemaViajero();
+    private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
+        esquemaVecindad = configuracion.crearEsquemaVecindad(viajero);
         try {
             registro = new FileWriter(File.createTempFile("tsp", ".tmp"));
         } catch (IOException ex) {
@@ -292,24 +292,28 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
 
         dibujarSolucion();
         System.out.println("Mejor Solucion" + algoritmo.getSolucion());
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_menuEjecutarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
         menuAbrirViajeroActionPerformed(evt);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botonAbrirArchivoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jMenuItem1ActionPerformed(evt);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void botonEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarActionPerformed
+        menuEjecutarActionPerformed(evt);
+    }//GEN-LAST:event_botonEjecutarActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void menuPreferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPreferenciasActionPerformed
+        ConfiguracionUI panelConfiguracion = new ConfiguracionUI();
         JDialog dialog = new JDialog();
-        dialog.setContentPane(new ConfiguracionUI(configuracion));
+        dialog.setContentPane(panelConfiguracion);
         dialog.setTitle("Configuración");
         dialog.setModal(true);
-        dialog.setVisible(true);
+        dialog.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
         dialog.pack();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        configuracion = panelConfiguracion.getConfiguracion();
+    }//GEN-LAST:event_menuPreferenciasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,18 +340,18 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar barraHerramientas;
+    private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JButton botonAbrirArchivo;
+    private javax.swing.JButton botonEjecutar;
     private javax.swing.JMenuItem menuAbrirMochila;
     private javax.swing.JMenuItem menuAbrirViajero;
+    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenu menuEdicion;
+    private javax.swing.JMenuItem menuEjecutar;
+    private javax.swing.JMenuItem menuPreferencias;
     private javax.swing.JMenuItem menuSalir;
+    private javax.swing.JPanel panelViajero;
+    private javax.swing.JScrollPane scrollPanelViajero;
     // End of variables declaration//GEN-END:variables
 }
