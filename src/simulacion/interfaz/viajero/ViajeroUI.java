@@ -9,7 +9,7 @@
  * Created on 18/10/2009, 01:06:16 PM
  */
 
-package simulacion.interfaz;
+package simulacion.interfaz.viajero;
 
 /**
  *

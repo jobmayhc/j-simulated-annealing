@@ -12,9 +12,7 @@ package simulacion.interfaz;
 
 import java.awt.Dialog.ModalExclusionType;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.NumberFormat;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,18 +20,17 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.Exceptions;
-import problema.mochila.EsquemaMochila;
-import problema.mochila.HandlerMochila;
-import problema.viajero.HandlerViajero;
+import problema.mochila.EjercicioMochila;
+import problema.viajero.EjercicioViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
 import problema.viajero.SolucionViajero;
-import simulacion.Configuracion;
-import simulacion.interfaz.viajero.TSPFilter;
-import simulacion.simulatedAnnealing.EsquemaVecindad;
-import simulacion.simulatedAnnealing.OyenteAnnealing;
-import simulacion.simulatedAnnealing.SimulatedAnnealing;
-import simulacion.simulatedAnnealing.Solucion;
+import simulacion.Util;
+import simulacion.interfaz.mochila.FiltroKNP;
+import simulacion.interfaz.viajero.Arco;
+import simulacion.interfaz.viajero.FiltroTSP;
+import simulacion.interfaz.viajero.GrafoViajeroScene;
+import simulacion.simulatedAnnealing.Ejercicio;
 
 /**
  *
@@ -41,22 +38,14 @@ import simulacion.simulatedAnnealing.Solucion;
  * @author Jenny Bernal
  *
  */
-public class Main extends javax.swing.JFrame implements OyenteAnnealing {
+public class Main extends javax.swing.JFrame {
 
     /** Creates new form Main */
-    private File archivo;
-    private FileWriter registro;
-    private EsquemaViajero viajero;
-    private EsquemaVecindad esquemaVecindad;
-    private SimulatedAnnealing algoritmo;
-    private EsquemaMochila mochila;
+    private Ejercicio ejercicio;
     private GrafoViajeroScene grafoViajero;
-    private Configuracion configuracion;
 
     public Main() throws IOException {
-        grafoViajero = new GrafoViajeroScene();
         initComponents();
-        configuracion = new Configuracion();
     }
 
     /** This method is called from within the constructor to
@@ -193,15 +182,25 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
 
     private void menuAbrirViajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirViajeroActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new TSPFilter());
+        File archivo;
+
+        fileChooser.addChoosableFileFilter(new FiltroKNP());
+        fileChooser.addChoosableFileFilter(new FiltroTSP());
+        fileChooser.addChoosableFileFilter(new FiltroGeneral());
         fileChooser.showOpenDialog(this);
+
         if ((archivo = fileChooser.getSelectedFile()) == null) {
             return;
         }
         try {
-            viajero = HandlerViajero.cargar(archivo);
-            dibujarNodos();
-
+            if (Util.getExtension(archivo).equalsIgnoreCase("tsp")) {
+                ejercicio = new EjercicioViajero(archivo);
+                dibujarNodos();
+            } else if (Util.getExtension(archivo).equalsIgnoreCase("knp")) {
+                ejercicio = new EjercicioMochila(archivo);
+            } else {
+                throw new Exception("Formato de archivo no válido");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al cargar el archivo:" + ex.getMessage(),
@@ -212,7 +211,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
 
     private void dibujarNodos() {
 
-        //TODO: implementar zoom
+        EsquemaViajero viajero = ((EjercicioViajero) ejercicio).getViajero();
         Widget nodo;
         for (Punto punto : viajero.getPuntos()) {
             nodo = grafoViajero.addNode(punto);
@@ -223,29 +222,20 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     }
 
     private void dibujarSolucion() {
-
-        SolucionViajero solucionViajero = (SolucionViajero) algoritmo.getSolucion();
-        Punto anterior = solucionViajero.getRuta().get(0);
+        SolucionViajero solucion = (SolucionViajero) ejercicio.getMejorSolucion();
+        Punto anterior = solucion.getRuta().get(0);
         Arco arco;
-        for (Punto punto : solucionViajero.getRuta()) {
+        for (Punto punto : solucion.getRuta()) {
             arco = new Arco(anterior.getCostoA(punto));
             grafoViajero.addEdge(arco);
             grafoViajero.setEdgeSource(arco, anterior);
             grafoViajero.setEdgeTarget(arco, punto);
             anterior = punto;
         }
-        arco = new Arco(anterior.getCostoA(solucionViajero.getRuta().get(0)));
+        arco = new Arco(anterior.getCostoA(solucion.getRuta().get(0)));
         grafoViajero.addEdge(arco);
         grafoViajero.setEdgeSource(arco, anterior);
-        grafoViajero.setEdgeTarget(arco, solucionViajero.getRuta().get(0));
-    }
-
-    public void cambioSolucionActual(Solucion solucion) {
-        /*try {
-            //registro.write(NumberFormat.getInstance().format(solucion.getCosto()) + "\n");
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }*/
+        grafoViajero.setEdgeTarget(arco, solucion.getRuta().get(0));
     }
 
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
@@ -253,45 +243,12 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     }//GEN-LAST:event_menuSalirActionPerformed
 
     private void menuAbrirMochilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirMochilaActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(this);
-        if ((archivo = fileChooser.getSelectedFile()) == null) {
-            return;
-        }
-        try {
-            mochila = HandlerMochila.cargar(archivo);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar el archivo:" + ex.getMessage(),
-                    "Error en carga",
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_menuAbrirMochilaActionPerformed
 
     private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
-        esquemaVecindad = configuracion.crearEsquemaVecindad(viajero);
-        try {
-            registro = new FileWriter(File.createTempFile("tsp", ".tmp"));
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        algoritmo = new SimulatedAnnealing(esquemaVecindad);
-        algoritmo.setOyente(this);
-        algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
-        algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
-        algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
-        algoritmo.setIteracionesMismaTemperatura(configuracion.getIteracionesMismaTemperatura());
-        algoritmo.setTemperatura(configuracion.getTemperaturaInicial());
-        algoritmo.ejecutar(viajero.getSolucionAleatoria());
-
-        try {
-            registro.flush();
-            registro.close();
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
+        ejercicio.ejecutar();
         dibujarSolucion();
-        System.out.println("Mejor Solucion" + algoritmo.getSolucion());
+        System.out.println("Mejor Solucion" + ejercicio.getMejorSolucion());
     }//GEN-LAST:event_menuEjecutarActionPerformed
 
     private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
@@ -303,7 +260,13 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
     }//GEN-LAST:event_botonEjecutarActionPerformed
 
     private void menuPreferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPreferenciasActionPerformed
-        ConfiguracionUI panelConfiguracion = new ConfiguracionUI();
+        ConfiguracionUI panelConfiguracion;
+
+        if (ejercicio != null) {
+            panelConfiguracion = new ConfiguracionUI(ejercicio.getConfiguracion());
+        } else {
+            panelConfiguracion = new ConfiguracionUI();
+        }
         JDialog dialog = new JDialog();
         dialog.setContentPane(panelConfiguracion);
         dialog.setTitle("Configuración");
@@ -312,7 +275,7 @@ public class Main extends javax.swing.JFrame implements OyenteAnnealing {
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        configuracion = panelConfiguracion.getConfiguracion();
+        ejercicio.setConfiguracion(panelConfiguracion.getConfiguracion());
     }//GEN-LAST:event_menuPreferenciasActionPerformed
 
     /**

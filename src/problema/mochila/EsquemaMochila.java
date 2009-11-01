@@ -5,6 +5,7 @@
 package problema.mochila;
 
 import java.util.ArrayList;
+import simulacion.simulatedAnnealing.Solucion;
 
 /**
  *
@@ -72,7 +73,7 @@ public class EsquemaMochila {
     }
 
     @SuppressWarnings("unchecked")
-    public SolucionMochila getSolucionAleatoria() {
+    public Solucion getSolucionAleatoria() {
         calcularDelta();
         SolucionMochila solucionAleatoria = new SolucionMochila(capacidad, delta);
 

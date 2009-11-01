@@ -22,7 +22,7 @@ import simulacion.simulatedAnnealing.SimulatedAnnealing;
 
 /**
  *
- * @author jhon.arevalo
+ * @author John Arevalo
  */
 public class ConfiguracionUI extends javax.swing.JPanel {
 
@@ -34,6 +34,24 @@ public class ConfiguracionUI extends javax.swing.JPanel {
     public ConfiguracionUI(Configuracion configuracion) {
         initComponents();
         this.configuracion = configuracion;
+
+        if (configuracion.getEsquemaReduccion() == SimulatedAnnealing.REDUCCION_POR_COCIENTE) {
+            radioReduccionPorCociente.setSelected(true);
+        } else if (configuracion.getEsquemaReduccion() == SimulatedAnnealing.REDUCCION_POR_FACTOR) {
+            radioReduccionPorFactor.setSelected(true);
+        } else if (configuracion.getEsquemaReduccion() == SimulatedAnnealing.REDUCCION_POR_ITERACION) {
+            radioReduccionPorIteracion.setSelected(true);
+        }
+
+
+        if (configuracion.getVecindadViajero().equals(AleatorioSimple.class)) {
+            radioAleatorioSimple.setSelected(true);
+        } else if (configuracion.getVecindadViajero().equals(AleatorioDoble.class)) {
+            radioAleatorioDoble.setSelected(true);
+        } else if (configuracion.getVecindadViajero().equals(ArcoAleatorio.class)) {
+            radioArcoAleatorio.setSelected(true);
+        }
+
     }
 
     /** This method is called from within the constructor to
