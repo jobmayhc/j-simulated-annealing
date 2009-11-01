@@ -140,6 +140,11 @@
               </Constraints>
             </Component>
             <Component class="javax.swing.JTextField" name="textAlfa">
+              <BindingProperties>
+                <BindingProperty name="text" source="configuracion" sourcePath="${alfa}" target="textAlfa" targetPath="text" updateStrategy="0" immediately="false">
+                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                </BindingProperty>
+              </BindingProperties>
               <Events>
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textAlfaFocusGained"/>
               </Events>
@@ -162,6 +167,11 @@
               </Constraints>
             </Component>
             <Component class="javax.swing.JTextField" name="textBeta">
+              <BindingProperties>
+                <BindingProperty name="text" source="configuracion" sourcePath="${beta}" target="textBeta" targetPath="text" updateStrategy="0" immediately="false">
+                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                </BindingProperty>
+              </BindingProperties>
               <Events>
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textBetaFocusGained"/>
               </Events>

@@ -61,12 +61,11 @@ public class Main extends javax.swing.JFrame {
         barraHerramientas = new javax.swing.JToolBar();
         botonAbrirArchivo = new javax.swing.JButton();
         botonEjecutar = new javax.swing.JButton();
-        scrollPanelViajero = new javax.swing.JScrollPane();
-        panelViajero = new javax.swing.JPanel();
+        scrollPanelDespliegue = new javax.swing.JScrollPane();
+        panelDespliegue = new javax.swing.JPanel();
         barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
-        menuAbrirViajero = new javax.swing.JMenuItem();
-        menuAbrirMochila = new javax.swing.JMenuItem();
+        menuAbrirArchivo = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenuItem();
         menuEdicion = new javax.swing.JMenu();
         menuEjecutar = new javax.swing.JMenuItem();
@@ -106,42 +105,31 @@ public class Main extends javax.swing.JFrame {
         barraHerramientas.add(botonEjecutar);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(barraHerramientas, gridBagConstraints);
 
-        panelViajero.setLayout(new java.awt.BorderLayout());
-        scrollPanelViajero.setViewportView(panelViajero);
+        panelDespliegue.setLayout(new java.awt.BorderLayout());
+        scrollPanelDespliegue.setViewportView(panelDespliegue);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        getContentPane().add(scrollPanelViajero, gridBagConstraints);
+        getContentPane().add(scrollPanelDespliegue, gridBagConstraints);
 
         menuArchivo.setText("Archivo");
 
-        menuAbrirViajero.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        menuAbrirViajero.setText("Abrir Archivo...");
-        menuAbrirViajero.addActionListener(new java.awt.event.ActionListener() {
+        menuAbrirArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        menuAbrirArchivo.setText("Abrir Archivo...");
+        menuAbrirArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAbrirViajeroActionPerformed(evt);
+                menuAbrirArchivoActionPerformed(evt);
             }
         });
-        menuArchivo.add(menuAbrirViajero);
-
-        menuAbrirMochila.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
-        menuAbrirMochila.setText("Abrir Mochila...");
-        menuAbrirMochila.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAbrirMochilaActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(menuAbrirMochila);
+        menuArchivo.add(menuAbrirArchivo);
 
         menuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         menuSalir.setText("Salir");
@@ -157,7 +145,7 @@ public class Main extends javax.swing.JFrame {
         menuEdicion.setText("Edicion");
 
         menuEjecutar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
-        menuEjecutar.setText("ejecutar");
+        menuEjecutar.setText("Ejecutar");
         menuEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuEjecutarActionPerformed(evt);
@@ -165,6 +153,7 @@ public class Main extends javax.swing.JFrame {
         });
         menuEdicion.add(menuEjecutar);
 
+        menuPreferencias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         menuPreferencias.setText("Preferencias...");
         menuPreferencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +169,81 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuAbrirViajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirViajeroActionPerformed
+    private void dibujarNodos() {
+        EsquemaViajero viajero = ((EjercicioViajero) ejercicio).getViajero();
+        Widget nodo;
+
+        panelDespliegue.removeAll();
+        grafoViajero = new GrafoViajeroScene();
+        
+        for (Punto punto : viajero.getPuntos()) {
+            nodo = grafoViajero.addNode(punto);
+            nodo.setPreferredLocation(viajero.trasladar(punto, panelDespliegue.getBounds()));
+        }
+
+        panelDespliegue.add(grafoViajero.createView(), java.awt.BorderLayout.CENTER);
+    }
+
+    private void dibujarSolucion() {
+        SolucionViajero solucion = (SolucionViajero) ejercicio.getMejorSolucion();
+        Punto anterior = solucion.getRuta().get(0);
+        Arco arco;
+
+        dibujarNodos();
+
+        for (Punto punto : solucion.getRuta()) {
+            arco = new Arco(anterior.getCostoA(punto));
+            grafoViajero.addEdge(arco);
+            grafoViajero.setEdgeSource(arco, anterior);
+            grafoViajero.setEdgeTarget(arco, punto);
+            anterior = punto;
+        }
+        arco = new Arco(anterior.getCostoA(solucion.getRuta().get(0)));
+        grafoViajero.addEdge(arco);
+        grafoViajero.setEdgeSource(arco, anterior);
+        grafoViajero.setEdgeTarget(arco, solucion.getRuta().get(0));
+    }
+
+    private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_menuSalirActionPerformed
+
+    private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
+        ejercicio.ejecutar();
+        dibujarSolucion();
+        System.out.println("Mejor Solucion" + ejercicio.getMejorSolucion());
+    }//GEN-LAST:event_menuEjecutarActionPerformed
+
+    private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
+        menuAbrirArchivoActionPerformed(evt);
+    }//GEN-LAST:event_botonAbrirArchivoActionPerformed
+
+    private void botonEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarActionPerformed
+        menuEjecutarActionPerformed(evt);
+    }//GEN-LAST:event_botonEjecutarActionPerformed
+
+    private void menuPreferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPreferenciasActionPerformed
+        ConfiguracionUI panelConfiguracion;
+
+        if (ejercicio != null) {
+            panelConfiguracion = new ConfiguracionUI(ejercicio.getConfiguracion());
+        } else {
+            panelConfiguracion = new ConfiguracionUI();
+        }
+        JDialog dialog = new JDialog();
+        dialog.setContentPane(panelConfiguracion);
+        dialog.setTitle("Configuración");
+        dialog.setModal(true);
+        dialog.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        if (ejercicio != null) {
+            ejercicio.setConfiguracion(panelConfiguracion.getConfiguracion());
+        }
+    }//GEN-LAST:event_menuPreferenciasActionPerformed
+
+    private void menuAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirArchivoActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         File archivo;
 
@@ -207,76 +270,8 @@ public class Main extends javax.swing.JFrame {
                     "Error en carga",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_menuAbrirViajeroActionPerformed
 
-    private void dibujarNodos() {
-
-        EsquemaViajero viajero = ((EjercicioViajero) ejercicio).getViajero();
-        Widget nodo;
-        for (Punto punto : viajero.getPuntos()) {
-            nodo = grafoViajero.addNode(punto);
-            nodo.setPreferredLocation(viajero.trasladar(punto, panelViajero.getBounds()));
-        }
-
-        panelViajero.add(grafoViajero.createView(), java.awt.BorderLayout.CENTER);
-    }
-
-    private void dibujarSolucion() {
-        SolucionViajero solucion = (SolucionViajero) ejercicio.getMejorSolucion();
-        Punto anterior = solucion.getRuta().get(0);
-        Arco arco;
-        for (Punto punto : solucion.getRuta()) {
-            arco = new Arco(anterior.getCostoA(punto));
-            grafoViajero.addEdge(arco);
-            grafoViajero.setEdgeSource(arco, anterior);
-            grafoViajero.setEdgeTarget(arco, punto);
-            anterior = punto;
-        }
-        arco = new Arco(anterior.getCostoA(solucion.getRuta().get(0)));
-        grafoViajero.addEdge(arco);
-        grafoViajero.setEdgeSource(arco, anterior);
-        grafoViajero.setEdgeTarget(arco, solucion.getRuta().get(0));
-    }
-
-    private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_menuSalirActionPerformed
-
-    private void menuAbrirMochilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirMochilaActionPerformed
-    }//GEN-LAST:event_menuAbrirMochilaActionPerformed
-
-    private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
-        ejercicio.ejecutar();
-        dibujarSolucion();
-        System.out.println("Mejor Solucion" + ejercicio.getMejorSolucion());
-    }//GEN-LAST:event_menuEjecutarActionPerformed
-
-    private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
-        menuAbrirViajeroActionPerformed(evt);
-    }//GEN-LAST:event_botonAbrirArchivoActionPerformed
-
-    private void botonEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarActionPerformed
-        menuEjecutarActionPerformed(evt);
-    }//GEN-LAST:event_botonEjecutarActionPerformed
-
-    private void menuPreferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPreferenciasActionPerformed
-        ConfiguracionUI panelConfiguracion;
-
-        if (ejercicio != null) {
-            panelConfiguracion = new ConfiguracionUI(ejercicio.getConfiguracion());
-        } else {
-            panelConfiguracion = new ConfiguracionUI();
-        }
-        JDialog dialog = new JDialog();
-        dialog.setContentPane(panelConfiguracion);
-        dialog.setTitle("Configuración");
-        dialog.setModal(true);
-        dialog.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-        dialog.pack();
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        ejercicio.setConfiguracion(panelConfiguracion.getConfiguracion());
-    }//GEN-LAST:event_menuPreferenciasActionPerformed
+    }//GEN-LAST:event_menuAbrirArchivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,14 +302,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JButton botonAbrirArchivo;
     private javax.swing.JButton botonEjecutar;
-    private javax.swing.JMenuItem menuAbrirMochila;
-    private javax.swing.JMenuItem menuAbrirViajero;
+    private javax.swing.JMenuItem menuAbrirArchivo;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuEdicion;
     private javax.swing.JMenuItem menuEjecutar;
     private javax.swing.JMenuItem menuPreferencias;
     private javax.swing.JMenuItem menuSalir;
-    private javax.swing.JPanel panelViajero;
-    private javax.swing.JScrollPane scrollPanelViajero;
+    private javax.swing.JPanel panelDespliegue;
+    private javax.swing.JScrollPane scrollPanelDespliegue;
     // End of variables declaration//GEN-END:variables
 }
