@@ -29,12 +29,20 @@ public class ConfiguracionUI extends javax.swing.JPanel {
     /** Creates new form ConfiguracionUI */
     public ConfiguracionUI() {
         initComponents();
+        actualizarRadios();
     }
 
     public ConfiguracionUI(Configuracion configuracion) {
         initComponents();
         this.configuracion = configuracion;
 
+        actualizarRadios();
+    }
+
+    /**
+     * Recarga la configuracion en los radios
+     */
+    private void actualizarRadios() {
         if (configuracion.getEsquemaReduccion() == SimulatedAnnealing.REDUCCION_POR_COCIENTE) {
             radioReduccionPorCociente.setSelected(true);
         } else if (configuracion.getEsquemaReduccion() == SimulatedAnnealing.REDUCCION_POR_FACTOR) {
@@ -51,7 +59,6 @@ public class ConfiguracionUI extends javax.swing.JPanel {
         } else if (configuracion.getVecindadViajero().equals(ArcoAleatorio.class)) {
             radioArcoAleatorio.setSelected(true);
         }
-
     }
 
     /** This method is called from within the constructor to
@@ -173,6 +180,9 @@ public class ConfiguracionUI extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelGeneral.add(labelAlfa, gridBagConstraints);
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${alfa}"), textAlfa, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         textAlfa.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 textAlfaFocusGained(evt);
@@ -191,6 +201,9 @@ public class ConfiguracionUI extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelGeneral.add(labelBeta, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, configuracion, org.jdesktop.beansbinding.ELProperty.create("${beta}"), textBeta, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         textBeta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
