@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package simulacion.interfaz;
+package simulacion.interfaz.viajero;
 
 /**
  *
@@ -12,7 +12,7 @@ public class Arco {
 
     private double costo;
 
-    Arco(double costo) {
+    public Arco(double costo) {
         this.costo = costo;
     }
 
