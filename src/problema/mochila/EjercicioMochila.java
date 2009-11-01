@@ -9,9 +9,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import org.openide.util.Exceptions;
+import problema.mochila.vecindad.IntercambioObjeto;
 import simulacion.Configuracion;
 import simulacion.simulatedAnnealing.AnnealingException;
 import simulacion.simulatedAnnealing.Ejercicio;
+import simulacion.simulatedAnnealing.SimulatedAnnealing;
 import simulacion.simulatedAnnealing.Solucion;
 
 /**
@@ -22,6 +24,7 @@ public class EjercicioMochila implements Ejercicio {
 
     private EsquemaMochila mochila;
     private Configuracion configuracion;
+    private SimulatedAnnealing algoritmo;
 
     public EjercicioMochila(File archivo) throws AnnealingException {
         configuracion = new Configuracion();
@@ -65,6 +68,14 @@ public class EjercicioMochila implements Ejercicio {
     }
 
     public void ejecutar() {
+        mochila.setCapacidad(configuracion.getCapacidadMochila());
+        algoritmo = new SimulatedAnnealing(new IntercambioObjeto(mochila));
+        algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
+        algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
+        algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
+        algoritmo.setIteracionesMismaTemperatura(configuracion.getIteracionesMismaTemperatura());
+        algoritmo.setTemperatura(configuracion.getTemperaturaInicial());
+        algoritmo.ejecutar(mochila.getSolucionAleatoria());
     }
 
     public Solucion getSolucionAleatoria() {
@@ -80,8 +91,6 @@ public class EjercicioMochila implements Ejercicio {
     }
 
     public Solucion getMejorSolucion() {
-        return null;
+        return algoritmo.getSolucion();
     }
-
-
 }
