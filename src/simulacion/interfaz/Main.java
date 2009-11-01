@@ -210,7 +210,7 @@ public class Main extends javax.swing.JFrame {
 
     private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
         ejercicio.ejecutar();
-        dibujarSolucion();
+        //dibujarSolucion();
         System.out.println("Mejor Solucion" + ejercicio.getMejorSolucion());
     }//GEN-LAST:event_menuEjecutarActionPerformed
 
