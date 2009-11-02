@@ -38,8 +38,6 @@ public class Configuracion implements Serializable {
         alfa = 0.99;
         beta = 0.001;
         esquemaReduccion = SimulatedAnnealing.REDUCCION_POR_ITERACION;
-
-
     }
 
     public double getCapacidadMochila() {

@@ -20,11 +20,9 @@ import simulacion.simulatedAnnealing.Solucion;
  *
  * @author John Arevalo
  */
-public class EjercicioViajero implements Ejercicio {
+public class EjercicioViajero extends Ejercicio {
 
     private EsquemaViajero viajero;
-    private Configuracion configuracion;
-    private SimulatedAnnealing algoritmo;
 
     public EjercicioViajero(File archivo) throws AnnealingException {
         configuracion = new Configuracion();
@@ -64,18 +62,11 @@ public class EjercicioViajero implements Ejercicio {
         }
     }
 
-    public void setConfiguracion(Configuracion configuracion) {
-        this.configuracion = configuracion;
-    }
-
-    public Configuracion getConfiguracion() {
-        return configuracion;
-    }
-
-    public void ejecutar() {
+    public void ejecutarAlgoritmo() {
         EsquemaVecindad esquemaVecindad = configuracion.crearEsquemaVecindad(viajero);
 
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
+        algoritmo.setOyente(this);
         algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
         algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
         algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
@@ -86,10 +77,6 @@ public class EjercicioViajero implements Ejercicio {
 
     public Solucion getSolucionAleatoria() {
         return viajero.getSolucionAleatoria();
-    }
-
-    public Solucion getMejorSolucion() {
-        return algoritmo.getSolucion();
     }
 
     public EsquemaViajero getViajero() {

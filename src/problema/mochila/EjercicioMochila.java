@@ -20,11 +20,9 @@ import simulacion.simulatedAnnealing.Solucion;
  *
  * @author edilson
  */
-public class EjercicioMochila implements Ejercicio {
+public class EjercicioMochila extends Ejercicio {
 
     private EsquemaMochila mochila;
-    private Configuracion configuracion;
-    private SimulatedAnnealing algoritmo;
 
     public EjercicioMochila(File archivo) throws AnnealingException {
         configuracion = new Configuracion();
@@ -67,9 +65,10 @@ public class EjercicioMochila implements Ejercicio {
         }
     }
 
-    public void ejecutar() {
+    public void ejecutarAlgoritmo() {
         mochila.setCapacidad(configuracion.getCapacidadMochila());
         algoritmo = new SimulatedAnnealing(new IntercambioObjeto(mochila));
+        algoritmo.setOyente(this);
         algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
         algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
         algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
@@ -80,17 +79,5 @@ public class EjercicioMochila implements Ejercicio {
 
     public Solucion getSolucionAleatoria() {
         return mochila.getSolucionAleatoria();
-    }
-
-    public void setConfiguracion(Configuracion configuracion) {
-        this.configuracion = configuracion;
-    }
-
-    public Configuracion getConfiguracion() {
-        return configuracion;
-    }
-
-    public Solucion getMejorSolucion() {
-        return algoritmo.getSolucion();
     }
 }
