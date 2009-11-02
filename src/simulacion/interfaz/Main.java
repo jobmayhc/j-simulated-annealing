@@ -43,9 +43,19 @@ public class Main extends javax.swing.JFrame {
     /** Creates new form Main */
     private Ejercicio ejercicio;
     private GrafoViajeroScene grafoViajero;
+    private String estado;
 
     public Main() throws IOException {
         initComponents();
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+        labelEstado.setText(estado);
     }
 
     /** This method is called from within the constructor to
@@ -61,14 +71,17 @@ public class Main extends javax.swing.JFrame {
         barraHerramientas = new javax.swing.JToolBar();
         botonAbrirArchivo = new javax.swing.JButton();
         botonEjecutar = new javax.swing.JButton();
+        botonGraficar = new javax.swing.JButton();
         scrollPanelDespliegue = new javax.swing.JScrollPane();
         panelDespliegue = new javax.swing.JPanel();
+        labelEstado = new javax.swing.JLabel();
         barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
         menuAbrirArchivo = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenuItem();
         menuEdicion = new javax.swing.JMenu();
         menuEjecutar = new javax.swing.JMenuItem();
+        menuGraficar = new javax.swing.JMenuItem();
         menuPreferencias = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -104,6 +117,19 @@ public class Main extends javax.swing.JFrame {
         });
         barraHerramientas.add(botonEjecutar);
 
+        botonGraficar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simulacion/interfaz/imagenes/grafica.png"))); // NOI18N
+        botonGraficar.setToolTipText("Graficar");
+        botonGraficar.setFocusable(false);
+        botonGraficar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonGraficar.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        botonGraficar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonGraficar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGraficarActionPerformed(evt);
+            }
+        });
+        barraHerramientas.add(botonGraficar);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -119,6 +145,10 @@ public class Main extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(scrollPanelDespliegue, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        getContentPane().add(labelEstado, gridBagConstraints);
 
         menuArchivo.setText("Archivo");
 
@@ -153,6 +183,15 @@ public class Main extends javax.swing.JFrame {
         });
         menuEdicion.add(menuEjecutar);
 
+        menuGraficar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        menuGraficar.setText("Graficar");
+        menuGraficar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuGraficarActionPerformed(evt);
+            }
+        });
+        menuEdicion.add(menuGraficar);
+
         menuPreferencias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         menuPreferencias.setText("Preferencias...");
         menuPreferencias.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +214,7 @@ public class Main extends javax.swing.JFrame {
 
         panelDespliegue.removeAll();
         grafoViajero = new GrafoViajeroScene();
-        
+
         for (Punto punto : viajero.getPuntos()) {
             nodo = grafoViajero.addNode(punto);
             nodo.setPreferredLocation(viajero.trasladar(punto, panelDespliegue.getBounds()));
@@ -209,9 +248,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSalirActionPerformed
 
     private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
-        ejercicio.ejecutar();
-        //dibujarSolucion();
-        System.out.println("Mejor Solucion" + ejercicio.getMejorSolucion());
+        ejercicio.resolver();
+        setEstado("Mejor Solucion:" + ejercicio.getMejorSolucion());
+        dibujarSolucion();
     }//GEN-LAST:event_menuEjecutarActionPerformed
 
     private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
@@ -273,6 +312,21 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_menuAbrirArchivoActionPerformed
 
+    private void menuGraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGraficarActionPerformed
+        JDialog dialog = new JDialog();
+
+        Grafica grafica = new Grafica(ejercicio);
+        dialog.setContentPane(grafica);
+        dialog.setModal(true);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_menuGraficarActionPerformed
+
+    private void botonGraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGraficarActionPerformed
+        menuGraficarActionPerformed(evt);
+    }//GEN-LAST:event_botonGraficarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -302,10 +356,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JButton botonAbrirArchivo;
     private javax.swing.JButton botonEjecutar;
+    private javax.swing.JButton botonGraficar;
+    private javax.swing.JLabel labelEstado;
     private javax.swing.JMenuItem menuAbrirArchivo;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuEdicion;
     private javax.swing.JMenuItem menuEjecutar;
+    private javax.swing.JMenuItem menuGraficar;
     private javax.swing.JMenuItem menuPreferencias;
     private javax.swing.JMenuItem menuSalir;
     private javax.swing.JPanel panelDespliegue;

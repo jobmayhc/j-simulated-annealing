@@ -126,9 +126,9 @@ public class SimulatedAnnealing {
                 } else {
                     minimizar();
                 }
-                if (oyente != null) {
-                    oyente.cambioSolucionActual(solucionActual);
-                }
+            }
+            if (oyente != null) {
+                oyente.cambioSolucionActual(solucionActual);
             }
             reducir(i);
 
