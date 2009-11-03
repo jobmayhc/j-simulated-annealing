@@ -35,17 +35,16 @@ import simulacion.simulatedAnnealing.Ejercicio;
 /**
  *
  * @author John Arevalo
- * @author Jenny Bernal
  *
  */
-public class Main extends javax.swing.JFrame {
+public class Simulated extends javax.swing.JFrame {
 
     /** Creates new form Main */
     private Ejercicio ejercicio;
     private GrafoViajeroScene grafoViajero;
     private String estado;
 
-    public Main() throws IOException {
+    public Simulated() throws IOException {
         initComponents();
     }
 
@@ -250,7 +249,9 @@ public class Main extends javax.swing.JFrame {
     private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
         ejercicio.resolver();
         setEstado("Mejor Solucion:" + ejercicio.getMejorSolucion());
-        dibujarSolucion();
+        if (ejercicio instanceof EjercicioViajero) {
+            dibujarSolucion();
+        }
     }//GEN-LAST:event_menuEjecutarActionPerformed
 
     private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
@@ -342,7 +343,7 @@ public class Main extends javax.swing.JFrame {
 
             public void run() {
                 try {
-                    Main frame = new Main();
+                    Simulated frame = new Simulated();
                     frame.setVisible(true);
                     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 } catch (IOException ex) {
