@@ -18,7 +18,7 @@ import simulacion.simulatedAnnealing.Solucion;
 
 /**
  *
- * @author edilson
+ * @author John Arevalo
  */
 public class EjercicioMochila extends Ejercicio {
 
@@ -68,7 +68,7 @@ public class EjercicioMochila extends Ejercicio {
     public void ejecutarAlgoritmo() {
         mochila.setCapacidad(configuracion.getCapacidadMochila());
         algoritmo = new SimulatedAnnealing(new IntercambioObjeto(mochila));
-        algoritmo.setOyente(this);
+        algoritmo.agregarOyente(this);
         algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
         algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
         algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());

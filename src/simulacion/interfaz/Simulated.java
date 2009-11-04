@@ -11,6 +11,8 @@
 package simulacion.interfaz;
 
 import java.awt.Dialog.ModalExclusionType;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JDialog;
@@ -73,7 +75,9 @@ public class Simulated extends javax.swing.JFrame {
         botonGraficar = new javax.swing.JButton();
         scrollPanelDespliegue = new javax.swing.JScrollPane();
         panelDespliegue = new javax.swing.JPanel();
+        barraEstado = new javax.swing.JToolBar();
         labelEstado = new javax.swing.JLabel();
+        barraProgreso = new javax.swing.JProgressBar();
         barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
         menuAbrirArchivo = new javax.swing.JMenuItem();
@@ -144,10 +148,16 @@ public class Simulated extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(scrollPanelDespliegue, gridBagConstraints);
+
+        barraEstado.setRollover(true);
+        barraEstado.add(labelEstado);
+        barraEstado.add(barraProgreso);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        getContentPane().add(labelEstado, gridBagConstraints);
+        getContentPane().add(barraEstado, gridBagConstraints);
 
         menuArchivo.setText("Archivo");
 
@@ -247,8 +257,11 @@ public class Simulated extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSalirActionPerformed
 
     private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
+        barraProgreso.setMaximum(ejercicio.getConfiguracion().getIteracionesDiferenteTemperatura());
+        barraProgreso.setValue(0);
         ejercicio.resolver();
         setEstado("Mejor Solucion:" + ejercicio.getMejorSolucion());
+        crearTarea().execute();
         if (ejercicio instanceof EjercicioViajero) {
             dibujarSolucion();
         }
@@ -328,6 +341,19 @@ public class Simulated extends javax.swing.JFrame {
         menuGraficarActionPerformed(evt);
     }//GEN-LAST:event_botonGraficarActionPerformed
 
+    private TareaEjecutar crearTarea() {
+        TareaEjecutar tarea = new TareaEjecutar(ejercicio);
+        tarea.addPropertyChangeListener(new PropertyChangeListener() {
+
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("progress")) {
+                    barraProgreso.setValue((Integer) evt.getNewValue());
+                }
+            }
+        });
+        return tarea;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -353,8 +379,10 @@ public class Simulated extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToolBar barraEstado;
     private javax.swing.JToolBar barraHerramientas;
     private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JProgressBar barraProgreso;
     private javax.swing.JButton botonAbrirArchivo;
     private javax.swing.JButton botonEjecutar;
     private javax.swing.JButton botonGraficar;

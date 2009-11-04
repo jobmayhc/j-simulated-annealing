@@ -66,7 +66,7 @@ public class EjercicioViajero extends Ejercicio {
         EsquemaVecindad esquemaVecindad = configuracion.crearEsquemaVecindad(viajero);
 
         algoritmo = new SimulatedAnnealing(esquemaVecindad);
-        algoritmo.setOyente(this);
+        algoritmo.agregarOyente(this);
         algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
         algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
         algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
