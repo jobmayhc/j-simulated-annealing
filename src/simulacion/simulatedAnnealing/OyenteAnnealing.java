@@ -10,5 +10,5 @@ package simulacion.simulatedAnnealing;
  */
 public interface OyenteAnnealing {
 
-    public void cambioSolucionActual(Solucion solucion);
+    public void cambioSolucionActual(Solucion solucion, int iteracion);
 }

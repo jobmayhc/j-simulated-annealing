@@ -50,11 +50,15 @@ public abstract class Ejercicio implements OyenteAnnealing {
         this.configuracion = configuracion;
     }
 
-    public void cambioSolucionActual(Solucion solucion) {
+    public void cambioSolucionActual(Solucion solucion, int iteracion) {
         historicoSolucion.add(solucion.getCosto());
     }
 
     public ArrayList<Double> getHistoricoSolucion() {
         return historicoSolucion;
+    }
+
+    public void agregarOyente(OyenteAnnealing oyente) {
+        algoritmo.agregarOyente(oyente);
     }
 }

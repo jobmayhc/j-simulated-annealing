@@ -4,6 +4,8 @@
  */
 package simulacion.simulatedAnnealing;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author John Arevalo
@@ -42,10 +44,11 @@ public class SimulatedAnnealing {
     private double temperatura;
     private double temperaturaInicial;
     private int tipoProblema;
-    private OyenteAnnealing oyente;
+    private ArrayList<OyenteAnnealing> oyentes;
 
     public SimulatedAnnealing(EsquemaVecindad vecindad) {
         this.vecindad = vecindad;
+        oyentes = new ArrayList<OyenteAnnealing>();
     }
 
     public int getTipoProblema() {
@@ -97,12 +100,8 @@ public class SimulatedAnnealing {
         this.iteracionesMismaTemperatura = iteracionesMismaTemperatura;
     }
 
-    public OyenteAnnealing getOyente() {
-        return oyente;
-    }
-
-    public void setOyente(OyenteAnnealing oyente) {
-        this.oyente = oyente;
+    public void agregarOyente(OyenteAnnealing oyente) {
+        oyentes.add(oyente);
     }
 
     public Solucion getSolucion() {
@@ -127,9 +126,7 @@ public class SimulatedAnnealing {
                     minimizar();
                 }
             }
-            if (oyente != null) {
-                oyente.cambioSolucionActual(solucionActual);
-            }
+            dispararEvento(solucionActual, i);
             reducir(i);
 
         }
@@ -177,6 +174,12 @@ public class SimulatedAnnealing {
             if (Math.random() < Math.exp(delta / temperatura)) {
                 solucionActual = solucionVecina;
             }
+        }
+    }
+
+    public void dispararEvento(Solucion solucion, int iteracion) {
+        for (OyenteAnnealing oyente : oyentes) {
+            oyente.cambioSolucionActual(solucion, iteracion);
         }
     }
 }
