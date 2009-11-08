@@ -33,8 +33,4 @@ public class TareaEjecutar extends SwingWorker<Void, Void> {
 
         return null;
     }
-
-    @Override
-    public void done() {
-    }
 }
