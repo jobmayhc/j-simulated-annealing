@@ -46,9 +46,30 @@ public class SimulatedAnnealing {
     private int tipoProblema;
     private ArrayList<OyenteAnnealing> oyentes;
 
-    public SimulatedAnnealing(EsquemaVecindad vecindad) {
-        this.vecindad = vecindad;
+    public SimulatedAnnealing() {
+
         oyentes = new ArrayList<OyenteAnnealing>();
+    }
+
+    /**
+     * Limpia todos los parametros
+     */
+    public void reset() {
+        delta = 0.0;
+        solucionActual = null;
+        mejorSolucion = null;
+        solucionVecina = null;
+        iteracionesDiferenteTemperatura = 0;
+        iteracionesMismaTemperatura = 0;
+        esquemaReduccion = 0;
+        vecindad = null;
+        temperatura = 0.0;
+        temperaturaInicial = 0.0;
+        tipoProblema = 0;
+    }
+
+    public void setEsquemaVecindad(EsquemaVecindad vecindad) {
+        this.vecindad = vecindad;
     }
 
     public int getTipoProblema() {
@@ -101,7 +122,9 @@ public class SimulatedAnnealing {
     }
 
     public void agregarOyente(OyenteAnnealing oyente) {
-        oyentes.add(oyente);
+        if (!oyentes.contains(oyente)) {
+            oyentes.add(oyente);
+        }
     }
 
     public Solucion getSolucion() {
@@ -177,7 +200,7 @@ public class SimulatedAnnealing {
         }
     }
 
-    public void dispararEvento(Solucion solucion, int iteracion) {
+    private void dispararEvento(Solucion solucion, int iteracion) {
         for (OyenteAnnealing oyente : oyentes) {
             oyente.cambioSolucionActual(solucion, iteracion);
         }

@@ -25,7 +25,6 @@ public class EjercicioMochila extends Ejercicio {
     private EsquemaMochila mochila;
 
     public EjercicioMochila(File archivo) throws AnnealingException {
-        configuracion = new Configuracion();
         cargarArchivo(archivo);
     }
 
@@ -67,8 +66,9 @@ public class EjercicioMochila extends Ejercicio {
 
     public void ejecutarAlgoritmo() {
         mochila.setCapacidad(configuracion.getCapacidadMochila());
-        algoritmo = new SimulatedAnnealing(new IntercambioObjeto(mochila));
-        algoritmo.agregarOyente(this);
+
+        algoritmo.reset();
+        algoritmo.setEsquemaVecindad(new IntercambioObjeto(mochila));
         algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
         algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
         algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());

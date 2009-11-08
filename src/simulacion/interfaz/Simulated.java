@@ -19,6 +19,8 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker.StateValue;
 import javax.swing.UIManager;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.Exceptions;
@@ -27,6 +29,7 @@ import problema.viajero.EjercicioViajero;
 import problema.viajero.EsquemaViajero;
 import problema.viajero.Punto;
 import problema.viajero.SolucionViajero;
+import simulacion.Configuracion;
 import simulacion.Util;
 import simulacion.interfaz.mochila.FiltroKNP;
 import simulacion.interfaz.viajero.Arco;
@@ -45,8 +48,10 @@ public class Simulated extends javax.swing.JFrame {
     private Ejercicio ejercicio;
     private GrafoViajeroScene grafoViajero;
     private String estado;
+    private Configuracion configuracion;
 
     public Simulated() throws IOException {
+        configuracion = new Configuracion();
         initComponents();
     }
 
@@ -151,6 +156,8 @@ public class Simulated extends javax.swing.JFrame {
 
         barraEstado.setRollover(true);
         barraEstado.add(labelEstado);
+
+        barraProgreso.setStringPainted(true);
         barraEstado.add(barraProgreso);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -257,14 +264,15 @@ public class Simulated extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSalirActionPerformed
 
     private void menuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjecutarActionPerformed
-        barraProgreso.setMaximum(ejercicio.getConfiguracion().getIteracionesDiferenteTemperatura());
         barraProgreso.setValue(0);
-        ejercicio.resolver();
-        setEstado("Mejor Solucion:" + ejercicio.getMejorSolucion());
+        JDialog dialog = new JDialog(this);
+        dialog.setTitle("Calculando solución");
+        dialog.add(barraProgreso);
+        dialog.pack();
+        dialog.setModal(true);
+        dialog.setLocationRelativeTo(this);
         crearTarea().execute();
-        if (ejercicio instanceof EjercicioViajero) {
-            dibujarSolucion();
-        }
+        dialog.setVisible(true);
     }//GEN-LAST:event_menuEjecutarActionPerformed
 
     private void botonAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbrirArchivoActionPerformed
@@ -277,12 +285,7 @@ public class Simulated extends javax.swing.JFrame {
 
     private void menuPreferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPreferenciasActionPerformed
         ConfiguracionUI panelConfiguracion;
-
-        if (ejercicio != null) {
-            panelConfiguracion = new ConfiguracionUI(ejercicio.getConfiguracion());
-        } else {
-            panelConfiguracion = new ConfiguracionUI();
-        }
+        panelConfiguracion = new ConfiguracionUI(configuracion);
         JDialog dialog = new JDialog();
         dialog.setContentPane(panelConfiguracion);
         dialog.setTitle("Configuración");
@@ -292,7 +295,7 @@ public class Simulated extends javax.swing.JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         if (ejercicio != null) {
-            ejercicio.setConfiguracion(panelConfiguracion.getConfiguracion());
+            ejercicio.setConfiguracion(configuracion);
         }
     }//GEN-LAST:event_menuPreferenciasActionPerformed
 
@@ -317,6 +320,7 @@ public class Simulated extends javax.swing.JFrame {
             } else {
                 throw new Exception("Formato de archivo no válido");
             }
+            ejercicio.setConfiguracion(configuracion);
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al cargar el archivo:" + ex.getMessage(),
@@ -346,12 +350,26 @@ public class Simulated extends javax.swing.JFrame {
         tarea.addPropertyChangeListener(new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("progress")) {
+                if (evt.getNewValue() instanceof StateValue) {
+                    StateValue estado = (StateValue) evt.getNewValue();
+                    if (estado.equals(StateValue.DONE)) {
+                        finalizaEjecucion();
+                    }
+                } else if (evt.getPropertyName().equals("progress")) {
                     barraProgreso.setValue((Integer) evt.getNewValue());
                 }
             }
         });
         return tarea;
+    }
+
+    private void finalizaEjecucion() {
+        setEstado("Mejor Solucion:" + ejercicio.getMejorSolucion());
+        if (ejercicio instanceof EjercicioViajero) {
+            dibujarSolucion();
+        }
+        SwingUtilities.getWindowAncestor(barraProgreso).dispose();
+
     }
 
     /**

@@ -33,9 +33,8 @@ public class ConfiguracionUI extends javax.swing.JPanel {
     }
 
     public ConfiguracionUI(Configuracion configuracion) {
-        initComponents();
         this.configuracion = configuracion;
-
+        initComponents();
         actualizarRadios();
     }
 
@@ -74,7 +73,7 @@ public class ConfiguracionUI extends javax.swing.JPanel {
 
         grupoEsquemaReduccion = new javax.swing.ButtonGroup();
         grupoVecindadViajero = new javax.swing.ButtonGroup();
-        configuracion = new simulacion.Configuracion();
+        configuracion = this.configuracion;
         panelSolapas = new javax.swing.JTabbedPane();
         panelGeneral = new javax.swing.JPanel();
         labelTemperaturaInicial = new javax.swing.JLabel();

@@ -25,7 +25,6 @@ public class EjercicioViajero extends Ejercicio {
     private EsquemaViajero viajero;
 
     public EjercicioViajero(File archivo) throws AnnealingException {
-        configuracion = new Configuracion();
         cargarArchivo(archivo);
     }
 
@@ -65,8 +64,9 @@ public class EjercicioViajero extends Ejercicio {
     public void ejecutarAlgoritmo() {
         EsquemaVecindad esquemaVecindad = configuracion.crearEsquemaVecindad(viajero);
 
-        algoritmo = new SimulatedAnnealing(esquemaVecindad);
-        algoritmo.agregarOyente(this);
+        algoritmo.reset();
+
+        algoritmo.setEsquemaVecindad(esquemaVecindad);
         algoritmo.setTipoProblema(SimulatedAnnealing.MINIMIZACION);
         algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
         algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());

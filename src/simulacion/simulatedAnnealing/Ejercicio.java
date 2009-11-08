@@ -20,6 +20,8 @@ public abstract class Ejercicio implements OyenteAnnealing {
 
     public Ejercicio() {
         historicoSolucion = new ArrayList<Double>();
+        algoritmo = new SimulatedAnnealing();
+        algoritmo.agregarOyente(this);
     }
 
     /**
