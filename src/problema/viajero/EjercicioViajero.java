@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import org.openide.util.Exceptions;
-import simulacion.Configuracion;
 import simulacion.simulatedAnnealing.AnnealingException;
 import simulacion.simulatedAnnealing.Ejercicio;
 import simulacion.simulatedAnnealing.EsquemaVecindad;

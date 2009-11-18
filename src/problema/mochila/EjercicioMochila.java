@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import org.openide.util.Exceptions;
 import problema.mochila.vecindad.IntercambioObjeto;
-import simulacion.Configuracion;
 import simulacion.simulatedAnnealing.AnnealingException;
 import simulacion.simulatedAnnealing.Ejercicio;
 import simulacion.simulatedAnnealing.SimulatedAnnealing;
@@ -67,17 +66,27 @@ public class EjercicioMochila extends Ejercicio {
     public void ejecutarAlgoritmo() {
         mochila.setCapacidad(configuracion.getCapacidadMochila());
 
-        algoritmo.reset();
-        algoritmo.setEsquemaVecindad(new IntercambioObjeto(mochila));
-        algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
-        algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
-        algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
-        algoritmo.setIteracionesMismaTemperatura(configuracion.getIteracionesMismaTemperatura());
-        algoritmo.setTemperatura(configuracion.getTemperaturaInicial());
-        algoritmo.ejecutar(mochila.getSolucionAleatoria());
+        //Evaluar si la mochila tiene capacidad para todos los objetos
+        if (configuracion.getCapacidadMochila() > mochila.getSumatoriaCosto()) {
+            algoritmo.setIteracionesDiferenteTemperatura(0);
+            algoritmo.ejecutar(mochila.getSolucionConTodos());
+        } else {
+            algoritmo.reset();
+            algoritmo.setEsquemaVecindad(new IntercambioObjeto(mochila));
+            algoritmo.setTipoProblema(SimulatedAnnealing.MAXIMIZACION);
+            algoritmo.setEsquemaReduccion(configuracion.getEsquemaReduccion());
+            algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
+            algoritmo.setIteracionesMismaTemperatura(configuracion.getIteracionesMismaTemperatura());
+            algoritmo.setTemperatura(configuracion.getTemperaturaInicial());
+            algoritmo.ejecutar(mochila.getSolucionAleatoria());
+        }
     }
 
     public Solucion getSolucionAleatoria() {
         return mochila.getSolucionAleatoria();
+    }
+
+    public EsquemaMochila getMochila() {
+        return mochila;
     }
 }

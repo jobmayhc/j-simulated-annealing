@@ -36,6 +36,11 @@ public class SolucionMochila implements Solucion {
         }
     }
 
+    /**
+     * Calcula el costo, incluyendo la penalización. Si se desea únicamente los
+     * la suma de costos se debe usar {@link #getSumatoriaCosto()}
+     * @return Costo con penalizacion
+     */
     public double getCosto() {
         calcularPenalizacion();
         double sumatoriaValor = 0;
@@ -46,12 +51,23 @@ public class SolucionMochila implements Solucion {
         return sumatoriaValor * penalizacion;
     }
 
-    private void calcularPenalizacion() {
+    /**
+     *
+     * @return devuelve la sumatoria de los costos de los objetos de esta solucion
+     */
+    public double getSumatoriaCosto() {
         double sumatoriaCosto = 0;
         for (Objeto objeto : objetos) {
             sumatoriaCosto = sumatoriaCosto + objeto.getCosto();
         }
-        penalizacion = 1 - Math.abs(sumatoriaCosto - capacidadTotal) / delta;
+
+        return sumatoriaCosto;
+
+    }
+
+    private void calcularPenalizacion() {
+
+        penalizacion = 1 - Math.abs(getSumatoriaCosto() - capacidadTotal) / delta;
     }
 
     public void agregarObjeto(Objeto objeto) {
@@ -77,6 +93,10 @@ public class SolucionMochila implements Solucion {
         for (Objeto objeto : objetos) {
             buffer.append(objeto.getNombre() + ",");
         }
-        return buffer.toString() + "; costo = " + getCosto();
+        return buffer.toString() + "; costo = " + getSumatoriaCosto();
+    }
+
+    public boolean contiene(Objeto objeto) {
+        return objetos.contains(objeto);
     }
 }
