@@ -19,7 +19,6 @@ public class EsquemaMochila {
     private double capacidad;
     /**
      * min (C, (sumatoria C sub j) - C)
-     * -1 es que no ha sido definida
      */
     private double delta = 0;
 
@@ -65,11 +64,7 @@ public class EsquemaMochila {
 
     private void calcularDelta() {
         delta = 0;
-        double sumatoriaCosto = 0;
-        for (Objeto objeto : objetos) {
-            sumatoriaCosto = sumatoriaCosto + objeto.getCosto();
-        }
-        delta = Math.min(capacidad, sumatoriaCosto);
+        delta = Math.min(capacidad, getSumatoriaCosto() - capacidad);
     }
 
     @SuppressWarnings("unchecked")
@@ -84,5 +79,23 @@ public class EsquemaMochila {
         }
 
         return solucionAleatoria;
+    }
+
+    public double getSumatoriaCosto() {
+        double sumatoriaCosto = 0;
+        for (Objeto objeto : objetos) {
+            sumatoriaCosto = sumatoriaCosto + objeto.getCosto();
+        }
+        return sumatoriaCosto;
+    }
+
+    public Solucion getSolucionConTodos() {
+        calcularDelta();
+        SolucionMochila solucionConTodos = new SolucionMochila(capacidad, delta);
+        for (Objeto objeto : objetos) {
+            solucionConTodos.agregarObjeto(objeto);
+        }
+
+        return solucionConTodos;
     }
 }

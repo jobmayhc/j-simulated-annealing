@@ -151,7 +151,6 @@ public class SimulatedAnnealing {
             }
             dispararEvento(solucionActual, i);
             reducir(i);
-
         }
     }
 

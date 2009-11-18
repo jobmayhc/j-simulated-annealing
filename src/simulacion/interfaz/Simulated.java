@@ -32,6 +32,7 @@ import problema.viajero.SolucionViajero;
 import simulacion.Configuracion;
 import simulacion.Util;
 import simulacion.interfaz.mochila.FiltroKNP;
+import simulacion.interfaz.mochila.MochilaUI;
 import simulacion.interfaz.viajero.Arco;
 import simulacion.interfaz.viajero.FiltroTSP;
 import simulacion.interfaz.viajero.GrafoViajeroScene;
@@ -228,7 +229,6 @@ public class Simulated extends javax.swing.JFrame {
         EsquemaViajero viajero = ((EjercicioViajero) ejercicio).getViajero();
         Widget nodo;
 
-        panelDespliegue.removeAll();
         grafoViajero = new GrafoViajeroScene();
 
         for (Punto punto : viajero.getPuntos()) {
@@ -239,7 +239,7 @@ public class Simulated extends javax.swing.JFrame {
         panelDespliegue.add(grafoViajero.createView(), java.awt.BorderLayout.CENTER);
     }
 
-    private void dibujarSolucion() {
+    private void dibujarGrafo() {
         SolucionViajero solucion = (SolucionViajero) ejercicio.getMejorSolucion();
         Punto anterior = solucion.getRuta().get(0);
         Arco arco;
@@ -257,6 +257,11 @@ public class Simulated extends javax.swing.JFrame {
         grafoViajero.addEdge(arco);
         grafoViajero.setEdgeSource(arco, anterior);
         grafoViajero.setEdgeTarget(arco, solucion.getRuta().get(0));
+    }
+
+    private void cargarTablaMochila() {
+        MochilaUI mochilaUI = new MochilaUI((EjercicioMochila) ejercicio);
+        panelDespliegue.add(mochilaUI, java.awt.BorderLayout.CENTER);
     }
 
     private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
@@ -365,8 +370,12 @@ public class Simulated extends javax.swing.JFrame {
 
     private void finalizaEjecucion() {
         setEstado("Mejor Solucion:" + ejercicio.getMejorSolucion());
+        panelDespliegue.removeAll();
+
         if (ejercicio instanceof EjercicioViajero) {
-            dibujarSolucion();
+            dibujarGrafo();
+        } else if (ejercicio instanceof EjercicioMochila) {
+            cargarTablaMochila();
         }
         SwingUtilities.getWindowAncestor(barraProgreso).dispose();
 
