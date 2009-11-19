@@ -93,7 +93,7 @@ public class SolucionMochila implements Solucion {
         for (Objeto objeto : objetos) {
             buffer.append(objeto.getNombre() + ",");
         }
-        return buffer.toString() + "; costo = " + getSumatoriaCosto();
+        return buffer.toString() + "; valor F() = " + getCosto() + "; valorSolucion = " + getSumatoriaCosto();
     }
 
     public boolean contiene(Objeto objeto) {

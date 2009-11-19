@@ -78,6 +78,8 @@ public class EjercicioMochila extends Ejercicio {
             algoritmo.setIteracionesDiferenteTemperatura(configuracion.getIteracionesDiferenteTemperatura());
             algoritmo.setIteracionesMismaTemperatura(configuracion.getIteracionesMismaTemperatura());
             algoritmo.setTemperatura(configuracion.getTemperaturaInicial());
+            algoritmo.setAlfa(configuracion.getAlfa());
+            algoritmo.setBeta(configuracion.getBeta());
             algoritmo.ejecutar(mochila.getSolucionAleatoria());
         }
     }
